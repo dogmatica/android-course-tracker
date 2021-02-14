@@ -11,19 +11,12 @@ import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(
         tableName = "course_table",
-        foreignKeys = {
-                @ForeignKey(
+        foreignKeys = @ForeignKey(
                         entity = Term.class,
                         parentColumns = "term_id",
                         childColumns = "term_id_fk",
                         onDelete = CASCADE
-                ),
-                @ForeignKey(
-                        entity = Coursementor.class,
-                        parentColumns = "mentor_id",
-                        childColumns = "mentor_id_fk"
                 )
-        }
 )
 
 public class Course {
@@ -31,8 +24,6 @@ public class Course {
     private int course_id;
     @ColumnInfo(name = "term_id_fk")
     private int term_id_fk;
-    @ColumnInfo(name = "mentor_id_fk")
-    private int mentor_id_fk;
     @ColumnInfo(name = "course_name")
     private String course_name;
     @ColumnInfo(name = "course_start")
@@ -53,10 +44,6 @@ public class Course {
     public int getTerm_id_fk() { return term_id_fk;}
 
     public void setTerm_id_fk(int term_id_fk)  {this.term_id_fk = term_id_fk;}
-
-    public int getMentor_id_fk() { return mentor_id_fk;}
-
-    public void setMentor_id_fk(int mentor_id_fk)  {this.mentor_id_fk = mentor_id_fk;}
 
     public String getCourse_name() { return course_name;}
 
