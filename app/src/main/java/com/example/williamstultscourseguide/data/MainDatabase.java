@@ -23,8 +23,8 @@ public abstract class MainDatabase extends RoomDatabase {
     }
 
     public abstract TermDao termDao();
-    public abstract CourseDao courseDaoDao();
-    public abstract CoursementorDao coursementorDaoDao();
+    public abstract CourseDao courseDao();
+    public abstract CoursementorDao coursementorDao();
     public abstract AssessmentDao assessmentDao();
 
 }
