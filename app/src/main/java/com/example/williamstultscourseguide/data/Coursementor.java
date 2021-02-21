@@ -17,34 +17,34 @@ import androidx.room.PrimaryKey;
 )
 public class Coursementor {
     @PrimaryKey(autoGenerate = true)
-    private int mentor_id;
+    private int coursementor_id;
     @ColumnInfo(name = "course_id_fk")
     private int course_id_fk;
-    @ColumnInfo(name = "mentor_name")
-    private String mentor_name;
-    @ColumnInfo(name = "mentor_phone")
-    private String mentor_phone;
-    @ColumnInfo(name = "mentor_email")
-    private String mentor_email;
+    @ColumnInfo(name = "coursementor_name")
+    private String coursementor_name;
+    @ColumnInfo(name = "coursementor_phone")
+    private String coursementor_phone;
+    @ColumnInfo(name = "coursementor_email")
+    private String coursementor_email;
 
-    public int getMentor_id() { return mentor_id;}
+    public int getCoursementor_id() { return coursementor_id;}
 
-    public void setMentor_id(int mentor_id)  {this.mentor_id = mentor_id;}
+    public void setCoursementor_id(int coursementor_id)  {this.coursementor_id = coursementor_id;}
 
     public int getCourse_id_fk() { return course_id_fk;}
 
     public void setCourse_id_fk(int course_id_fk)  {this.course_id_fk = course_id_fk;}
 
-    public String getMentor_name() { return mentor_name;}
+    public String getCoursementor_name() { return coursementor_name;}
 
-    public void setMentor_name(String mentor_name)  {this.mentor_name = mentor_name;}
+    public void setCoursementor_name(String coursementor_name)  {this.coursementor_name = coursementor_name;}
 
-    public String getMentor_phone() { return mentor_phone;}
+    public String getCoursementor_phone() { return coursementor_phone;}
 
-    public void setMentor_phone(String mentor_phone)  {this.mentor_phone = mentor_phone;}
+    public void setCoursementor_phone(String coursementor_phone)  {this.coursementor_phone = coursementor_phone;}
 
-    public String getMentor_email() { return mentor_email;}
+    public String getCoursementor_email() { return coursementor_email;}
 
-    public void setMentor_email(String mentor_email)  {this.mentor_email = mentor_email;}
+    public void setCoursementor_email(String coursementor_email)  {this.coursementor_email = coursementor_email;}
 
 }

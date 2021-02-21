@@ -31,6 +31,6 @@ public interface TermDao {
     void deleteTerm(Term term);
 
     @Query("DELETE FROM term_table")
-    public void dropTermTable();
+    public void nukeTermTable();
 
 }
