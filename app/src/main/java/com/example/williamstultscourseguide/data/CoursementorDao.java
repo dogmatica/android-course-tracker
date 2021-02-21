@@ -1,11 +1,13 @@
 package com.example.williamstultscourseguide.data;
 
+import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
 import java.util.List;
 
+@Dao
 public interface CoursementorDao {
 
     @Query("SELECT * FROM coursementor_table ORDER BY coursementor_id")
