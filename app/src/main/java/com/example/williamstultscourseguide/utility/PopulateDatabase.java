@@ -1,4 +1,4 @@
-package com.example.williamstultscourseguide.activities;
+package com.example.williamstultscourseguide.utility;
 
 import android.content.Context;
 import android.util.Log;
