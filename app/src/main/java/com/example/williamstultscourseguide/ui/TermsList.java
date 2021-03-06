@@ -1,12 +1,13 @@
 package com.example.williamstultscourseguide.ui;
 
 import android.os.Bundle;
-import android.support.wearable.activity.WearableActivity;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.williamstultscourseguide.R;
 
-public class TermsList extends WearableActivity {
+public class TermsList extends AppCompatActivity {
 
     private TextView mTextView;
 
