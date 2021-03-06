@@ -6,22 +6,26 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/todaysDate"
+        android:id="@+id/todaysDateTextView"
         android:layout_width="198dp"
         android:layout_height="74dp"
         android:layout_marginTop="156dp"
-        android:text="TextView"
+        android:text="Todays Date"
+        android:textAlignment="center"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/currentTerm"
+        android:id="@+id/currentTermTextView"
         android:layout_width="283dp"
         android:layout_height="50dp"
         android:layout_marginTop="374dp"
-        android:text="TextView"
+        android:text="Current Term"
+        android:textAlignment="center"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

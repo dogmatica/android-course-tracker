@@ -23,11 +23,26 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton2"
+        android:id="@+id/addCourseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="23dp"
         android:clickable="true"
         android:src="@android:drawable/ic_input_add"
-        tools:layout_editor_absoluteX="323dp"
-        tools:layout_editor_absoluteY="652dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/coursesTextView"
+        android:layout_width="163dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="100dp"
+        android:text="Courses"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
