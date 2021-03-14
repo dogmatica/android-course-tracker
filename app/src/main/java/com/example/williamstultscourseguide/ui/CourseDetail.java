@@ -19,6 +19,6 @@ public class CourseDetail extends AppCompatActivity {
         mTextView = (TextView) findViewById(R.id.text);
 
         // Enables Always-on
-        setAmbientEnabled();
+        //setAmbientEnabled();
     }
 }
