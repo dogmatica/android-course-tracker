@@ -1,6 +1,7 @@
 package com.example.williamstultscourseguide.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -10,11 +11,14 @@ import com.example.williamstultscourseguide.R;
 import com.example.williamstultscourseguide.data.Assessment;
 import com.example.williamstultscourseguide.data.Course;
 import com.example.williamstultscourseguide.data.MainDatabase;
+import com.example.williamstultscourseguide.data.PopulateDatabase;
 import com.example.williamstultscourseguide.data.Term;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import static com.example.williamstultscourseguide.data.PopulateDatabase.LOG_TAG;
 
 public class Home extends AppCompatActivity {
 
@@ -23,11 +27,24 @@ public class Home extends AppCompatActivity {
     LocalDate todaysDate = LocalDate.now();
     String todaysDateString;
     TextView todaysDateTextView;
+    TextView coursesTitleView;
+    TextView coursePendingTextView;
+    TextView courseCompletedTextView;
+    TextView assessmentsTitleView;
+    TextView assessmentsPendingTextView;
+    TextView assessmentsPassedTextView;
+    TextView assessmentsFailedTextView;
+    TextView coursesPendingCountTextView;
+    TextView completedCountTextView;
+    TextView assessmentsPendingCountTextView;
+    TextView passedCountTextView;
+    TextView failedCountTextView;
     Button goButton;
     Button nukeButton;
     Button populateButton;
 
     private TextView mTextView;
+    //private View v;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +54,18 @@ public class Home extends AppCompatActivity {
 
         mTextView = (TextView) findViewById(R.id.text);
         todaysDateTextView = findViewById(R.id.todaysDateTextView);
+        coursesTitleView = findViewById(R.id.coursesTitleView);
+        coursePendingTextView = findViewById(R.id.coursePendingTextView);
+        assessmentsPendingTextView = findViewById(R.id.assessmentsPendingTextView);
+        assessmentsPassedTextView = findViewById(R.id.assessmentsPassedTextView);
+        assessmentsFailedTextView = findViewById(R.id.assessmentsFailedTextView);
+        completedCountTextView = findViewById(R.id.completedCountTextView);
+        assessmentsTitleView = findViewById(R.id.assessmentsTitleView);
+        coursesPendingCountTextView = findViewById(R.id.coursesPendingCountTextView);
+        assessmentsPendingCountTextView = findViewById(R.id.assessmentsPendingCountTextView);
+        courseCompletedTextView = findViewById(R.id.courseCompletedTextView);
+        passedCountTextView = findViewById(R.id.passedCountTextView);
+        failedCountTextView = findViewById(R.id.failedCountTextView);
         goButton = findViewById(R.id.goButton);
         nukeButton = findViewById(R.id.nukeButton);
         populateButton = findViewById(R.id.populateButton);
@@ -45,6 +74,13 @@ public class Home extends AppCompatActivity {
 
         // Enables Always-on
         //setAmbientEnabled();
+
+        populateButton.setOnClickListener(v -> {
+            Log.d(LOG_TAG, "populate DB button pressed");
+            PopulateDatabase populateDatabase = new PopulateDatabase();
+            populateDatabase.populate(getApplicationContext());
+            updateViews();
+        });
     }
 
     private void updateViews() {
@@ -71,12 +107,24 @@ public class Home extends AppCompatActivity {
             }
 
             for (int i = 0; i < assessmentList.size(); i++) {
-                if (assessmentList.get(i).getAssesment_status().contains("Pending")) assessmentsPending++;
-                if (assessmentList.get(i).getAssesment_status().contains("Passed")) assessmentsPassed++;
-                if (assessmentList.get(i).getAssesment_status().contains("Failed")) assessmentsFailed++;
+                if (assessmentList.get(i).getAssessment_status().contains("Pending")) assessmentsPending++;
+                if (assessmentList.get(i).getAssessment_status().contains("Passed")) assessmentsPassed++;
+                if (assessmentList.get(i).getAssessment_status().contains("Failed")) assessmentsFailed++;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        coursesPendingCountTextView.setText(String.valueOf(coursesPending));
+        completedCountTextView.setText(String.valueOf(coursesCompleted));
+        assessmentsPendingCountTextView.setText(String.valueOf(assessmentsPending));
+        passedCountTextView.setText(String.valueOf(assessmentsPassed));
+        failedCountTextView.setText(String.valueOf(assessmentsFailed));
     }
+
+    //@Override
+    //protected void onResume() {
+    //    super.onResume();
+    //    updateViews();
+    //}
 }

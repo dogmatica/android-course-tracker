@@ -56,7 +56,7 @@ public class Assessment {
 
     public void setAssessment_goal(Date assessment_goal)  {this.assessment_goal = assessment_goal;}
 
-    public String getAssesment_status() { return assessment_status; }
+    public String getAssessment_status() { return assessment_status; }
 
     public void setAssessment_status(String assessment_status) {this.assessment_status = assessment_status;}
 }

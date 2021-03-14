@@ -120,7 +120,7 @@ public class PopulateDatabase extends AppCompatActivity {
         Calendar due;
         Calendar goal;
         List<Term> termList = db.termDao().getTermList();
-        List<Course> courseList = db.courseDao().getCourseList(0);
+        List<Course> courseList = db.courseDao().getCourseList(1);
         if (courseList == null) return;
 
         due = Calendar.getInstance();
@@ -162,7 +162,7 @@ public class PopulateDatabase extends AppCompatActivity {
     public void insertCoursementors() {
 
         List<Term> termList = db.termDao().getTermList();
-        List<Course> courseList = db.courseDao().getCourseList(0);
+        List<Course> courseList = db.courseDao().getCourseList(1);
         if (courseList == null) return;
 
         tempCourseMentor1.setCoursementor_name("John Doe");
