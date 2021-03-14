@@ -26,10 +26,10 @@ public interface AssessmentDao {
     void insertAll(Assessment... assessment);
 
     @Update
-    void updateTerm(Assessment assessment);
+    void updateAssessment(Assessment assessment);
 
     @Update
-    void deleteTerm(Assessment assessment);
+    void deleteAssessment(Assessment assessment);
 
     @Query("DELETE FROM assessment_table")
     public void nukeAssessmentTable();

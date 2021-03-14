@@ -29,6 +29,8 @@ public class Assessment {
     private Date assessment_due;
     @ColumnInfo(name = "assessment_goal")
     private Date assessment_goal;
+    @ColumnInfo(name = "assessment_status")
+    private String assessment_status;
 
     public int getAssessment_id() { return assessment_id;}
 
@@ -53,5 +55,8 @@ public class Assessment {
     public Date getAssessment_goal() { return assessment_goal;}
 
     public void setAssessment_goal(Date assessment_goal)  {this.assessment_goal = assessment_goal;}
-    
+
+    public String getAssesment_status() { return assessment_status; }
+
+    public void setAssessment_status(String assessment_status) {this.assessment_status = assessment_status;}
 }
