@@ -11,6 +11,7 @@ import com.example.williamstultscourseguide.R;
 import com.example.williamstultscourseguide.data.Assessment;
 import com.example.williamstultscourseguide.data.Course;
 import com.example.williamstultscourseguide.data.MainDatabase;
+import com.example.williamstultscourseguide.data.NukeDatabase;
 import com.example.williamstultscourseguide.data.PopulateDatabase;
 import com.example.williamstultscourseguide.data.Term;
 
@@ -75,10 +76,19 @@ public class Home extends AppCompatActivity {
         // Enables Always-on
         //setAmbientEnabled();
 
+        updateViews();
+
         populateButton.setOnClickListener(v -> {
             Log.d(LOG_TAG, "populate DB button pressed");
             PopulateDatabase populateDatabase = new PopulateDatabase();
             populateDatabase.populate(getApplicationContext());
+            updateViews();
+        });
+
+        nukeButton.setOnClickListener(v -> {
+            Log.d(LOG_TAG, "nuke DB button pressed");
+            NukeDatabase nukeDatabase = new NukeDatabase();
+            nukeDatabase.nuke(getApplicationContext());
             updateViews();
         });
     }
