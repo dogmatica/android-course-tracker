@@ -1,7 +1,9 @@
 package com.example.williamstultscourseguide.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -51,6 +53,7 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        setTitle("Home");
         db = MainDatabase.getInstance(getApplicationContext());
 
         mTextView = (TextView) findViewById(R.id.text);
@@ -77,6 +80,14 @@ public class Home extends AppCompatActivity {
         //setAmbientEnabled();
 
         updateViews();
+
+        goButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), TermsList.class);
+                startActivity(intent);
+            }
+        });
 
         populateButton.setOnClickListener(v -> {
             Log.d(LOG_TAG, "populate DB button pressed");
