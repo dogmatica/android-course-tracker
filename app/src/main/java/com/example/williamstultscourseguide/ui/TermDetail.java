@@ -24,7 +24,7 @@ import java.util.List;
 public class TermDetail extends AppCompatActivity {
 
     //private TextView mTextView;
-    public static String LOG_TAG = "TermsListActivityLog";
+    public static String LOG_TAG = "TermDetailActivityLog";
     MainDatabase db;
     FloatingActionButton addTermCourseButton;
     ListView courseList;
