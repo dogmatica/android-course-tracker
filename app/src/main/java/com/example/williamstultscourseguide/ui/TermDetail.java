@@ -63,6 +63,7 @@ public class TermDetail extends AppCompatActivity {
         selectedTerm = db.termDao().getTerm(termId);
         formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         updateViews();
+        updateList();
 
         courseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

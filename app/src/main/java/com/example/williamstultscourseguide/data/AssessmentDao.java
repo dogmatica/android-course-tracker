@@ -13,8 +13,14 @@ public interface AssessmentDao {
     @Query("SELECT * FROM assessment_table ORDER BY assessment_id")
     List<Assessment> getAssessmentList();
 
+    @Query("SELECT * FROM assessment_table WHERE course_id_fk = :courseId ORDER BY assessment_id")
+    List<Assessment> getCourseAssessmentList(int courseId);
+
     @Query("SELECT * FROM assessment_table WHERE course_id_fk = :courseId AND assessment_id = :assessmentId")
     Assessment getAssessment(int courseId, int assessmentId);
+
+    @Query("SELECT * FROM assessment_table WHERE assessment_id = :assessmentId")
+    Assessment getAssessmentById(int assessmentId);
 
     @Query("SELECT * FROM assessment_table")
     List<Assessment> getAllAssessments();

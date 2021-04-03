@@ -155,8 +155,8 @@
 
     <ListView
         android:id="@+id/courseAssessmentListView"
-        android:layout_width="281dp"
-        android:layout_height="125dp"
+        android:layout_width="278dp"
+        android:layout_height="114dp"
         android:layout_marginStart="65dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="65dp"
@@ -188,41 +188,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/courseAssessmentListView" />
 
-    <TextView
-        android:id="@+id/noteTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="120dp"
-        android:text="Note"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addCourseAssessmentButton" />
-
-    <TextView
-        android:id="@+id/courseNoteTextView"
-        android:layout_width="278dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="65dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="65dp"
-        android:text="No note added"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noteTextView" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/editCourseNoteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="65dp"
-        android:clickable="true"
-        android:src="@android:drawable/ic_menu_edit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/courseNoteTextView" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/deleteCourseButton"
         android:layout_width="wrap_content"
@@ -233,5 +198,29 @@
         android:src="@android:drawable/ic_delete"
         app:layout_constraintEnd_toStartOf="@+id/editCourseButton"
         app:layout_constraintTop_toBottomOf="@+id/mentorEmailTextView" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="25dp"
+        android:text="Set Alert"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addCourseAssessmentButton" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginBottom="25dp"
+        android:text="View Note"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addCourseAssessmentButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

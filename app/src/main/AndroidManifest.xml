@@ -14,7 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WilliamStultsCourseGuide">
 
-
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
@@ -24,9 +23,16 @@
             android:value="true" />
 
         <activity
-            android:name=".ui.TermsList"
-            android:label="@string/title_activity_terms_list">
+            android:name=".ui.CourseAlertEntry"
+            android:label="@string/title_activity_course_alert_entry">
         </activity>
+        <activity
+            android:name=".ui.CourseNote"
+            android:label="@string/title_activity_course_note">
+        </activity>
+        <activity
+            android:name=".ui.TermsList"
+            android:label="@string/title_activity_terms_list" />
         <activity
             android:name=".ui.TermDetail"
             android:label="@string/title_activity_term_detail" />

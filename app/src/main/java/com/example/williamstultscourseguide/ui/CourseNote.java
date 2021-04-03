@@ -1,22 +1,21 @@
 package com.example.williamstultscourseguide.ui;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.williamstultscourseguide.R;
 
-public class AssessmentDetail extends AppCompatActivity {
+public class CourseNote extends AppCompatActivity {
 
-    private TextView mTextView;
+    //private TextView mTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_assessment_detail);
+        setContentView(R.layout.activity_course_note);
 
-        mTextView = (TextView) findViewById(R.id.notesTitle);
+        //mTextView = (TextView) findViewById(R.id.text);
 
         // Enables Always-on
         //setAmbientEnabled();

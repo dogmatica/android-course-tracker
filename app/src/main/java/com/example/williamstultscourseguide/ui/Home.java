@@ -45,6 +45,8 @@ public class Home extends AppCompatActivity {
     Button goButton;
     Button nukeButton;
     Button populateButton;
+    Button button3;
+    Button button4;
 
     private TextView mTextView;
     //private View v;
@@ -56,7 +58,7 @@ public class Home extends AppCompatActivity {
         setTitle("Home");
         db = MainDatabase.getInstance(getApplicationContext());
 
-        mTextView = (TextView) findViewById(R.id.text);
+        mTextView = (TextView) findViewById(R.id.notesTitle);
         todaysDateTextView = findViewById(R.id.todaysDateTextView);
         coursesTitleView = findViewById(R.id.coursesTitleView);
         coursePendingTextView = findViewById(R.id.coursePendingTextView);
@@ -75,6 +77,8 @@ public class Home extends AppCompatActivity {
         populateButton = findViewById(R.id.populateButton);
         todaysDateString = dtf.format(todaysDate);
         todaysDateTextView.setText(todaysDateString);
+        button3 = findViewById(R.id.button3);
+        button4 = findViewById(R.id.button4);
 
         // Enables Always-on
         //setAmbientEnabled();
@@ -85,6 +89,22 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), TermsList.class);
+                startActivity(intent);
+            }
+        });
+
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CoursesList.class);
+                startActivity(intent);
+            }
+        });
+
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AssessmentsList.class);
                 startActivity(intent);
             }
         });
