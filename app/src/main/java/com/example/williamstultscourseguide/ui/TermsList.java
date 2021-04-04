@@ -14,6 +14,7 @@ import com.example.williamstultscourseguide.data.MainDatabase;
 import com.example.williamstultscourseguide.data.Term;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class TermsList extends AppCompatActivity {
@@ -23,6 +24,8 @@ public class TermsList extends AppCompatActivity {
     MainDatabase db;
     ListView listView;
     FloatingActionButton addTermButton;
+    int termId;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -37,6 +40,8 @@ public class TermsList extends AppCompatActivity {
         listView = findViewById(R.id.termsListView);
         addTermButton = findViewById(R.id.addTermButton);
         db = MainDatabase.getInstance(getApplicationContext());
+        updateList();
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -52,7 +57,27 @@ public class TermsList extends AppCompatActivity {
             }
         });
 
-        updateList();
+        addTermButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), TermEdit.class);
+                Calendar calendar = Calendar.getInstance();
+                int dbCount = db.termDao().getTermList().size() + 1;
+                Term tempTerm = new Term();
+                String tempTermName = "New Term " + dbCount;
+                tempTerm.setTerm_name(tempTermName);
+                tempTerm.setTerm_start(calendar.getTime());
+                tempTerm.setTerm_end(calendar.getTime());
+                db.termDao().insertTerm(tempTerm);
+                tempTerm = db.termDao().getTermByName(tempTermName);
+                termId = tempTerm.getTerm_id();
+                intent.putExtra("termId", termId);
+                System.out.println("add term button pressed");
+                startActivity(intent);
+            }
+        });
+
+
 
 
 

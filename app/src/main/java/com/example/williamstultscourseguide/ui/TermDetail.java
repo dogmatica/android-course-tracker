@@ -27,6 +27,7 @@ public class TermDetail extends AppCompatActivity {
     public static String LOG_TAG = "TermDetailActivityLog";
     MainDatabase db;
     FloatingActionButton addTermCourseButton;
+    FloatingActionButton editTermButton;
     ListView courseList;
     TextView termTitleTextView;
     TextView startDateTextView;
@@ -51,6 +52,7 @@ public class TermDetail extends AppCompatActivity {
         setContentView(R.layout.activity_term_detail);
         setTitle("Term Details");
         addTermCourseButton = findViewById(R.id.addTermCourseButton);
+        editTermButton = findViewById(R.id.editTermButton);
         termTitleTextView = findViewById(R.id.termTitleTextView);
         startDateTextView = findViewById(R.id.startDateTextView);
         endDateTextView = findViewById(R.id.endDateTextView);
@@ -73,6 +75,18 @@ public class TermDetail extends AppCompatActivity {
                 int courseId = db.courseDao().getCourseList(termId).get(position).getCourse_id();
                 intent.putExtra("termId", termId);
                 intent.putExtra("courseId", courseId);
+                startActivity(intent);
+            }
+        });
+
+        editTermButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("edit term button pressed");
+                Term tempTerm = db.termDao().getTerm(termId);
+                System.out.println("current term name: " + tempTerm.getTerm_name());
+                Intent intent = new Intent(getApplicationContext(), TermEdit.class);
+                intent.putExtra("termId", termId);
                 startActivity(intent);
             }
         });

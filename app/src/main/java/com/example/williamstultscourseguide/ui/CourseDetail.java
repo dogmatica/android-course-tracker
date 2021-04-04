@@ -131,7 +131,7 @@ public class CourseDetail extends AppCompatActivity {
 
     private void updateViews() {
         if (selectedCourse != null) {
-            Log.d(TermDetail.LOG_TAG, "selected course is not null");
+            Log.d(CourseDetail.LOG_TAG, "selected course is not null");
             Date startDate = selectedCourse.getCourse_start();
             Date endDate = selectedCourse.getCourse_end();
 
