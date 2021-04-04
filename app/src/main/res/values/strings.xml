@@ -18,4 +18,13 @@
     -->
     <string name="hello_world">Hello Square World!</string>
     <string name="title_activity_course_alert_entry">CourseAlertEntry</string>
+    <string name="title_activity_course_edit">CourseEdit</string>
+    <string name="title_activity_term_edit">TermEdit</string>
+    <string name="title_activity_assessment_edit">AssessmentEdit</string>
+
+    <string-array name="statuses">
+        <item>Pending</item>
+        <item>In Progress</item>
+        <item>Completed</item>
+    </string-array>
 </resources>

@@ -13,6 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WilliamStultsCourseGuide">
+        <uses-library
+            android:name="com.google.android.wearable"
+            android:required="true" />
 
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
@@ -23,13 +26,20 @@
             android:value="true" />
 
         <activity
+            android:name=".ui.AssessmentEdit"
+            android:label="@string/title_activity_assessment_edit"></activity>
+        <activity
+            android:name=".ui.TermEdit"
+            android:label="@string/title_activity_term_edit" />
+        <activity
+            android:name=".ui.CourseEdit"
+            android:label="@string/title_activity_course_edit" />
+        <activity
             android:name=".ui.CourseAlertEntry"
-            android:label="@string/title_activity_course_alert_entry">
-        </activity>
+            android:label="@string/title_activity_course_alert_entry" />
         <activity
             android:name=".ui.CourseNote"
-            android:label="@string/title_activity_course_note">
-        </activity>
+            android:label="@string/title_activity_course_note" />
         <activity
             android:name=".ui.TermsList"
             android:label="@string/title_activity_terms_list" />
