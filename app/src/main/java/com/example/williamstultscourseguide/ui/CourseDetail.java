@@ -81,6 +81,7 @@ public class CourseDetail extends AppCompatActivity {
         courseAssessmentListView = findViewById(R.id.courseAssessmentListView);
         button = findViewById(R.id.button);
         button2 = findViewById(R.id.button2);
+        editCourseButton = findViewById(R.id.editCourseButton);
         //courseNoteTextView = findViewById(R.id.courseNoteTextView);
         db = MainDatabase.getInstance(getApplicationContext());
         intent = getIntent();
@@ -100,6 +101,19 @@ public class CourseDetail extends AppCompatActivity {
                 int assessmentId = db.assessmentDao().getCourseAssessmentList(courseId).get(position).getAssessment_id();
                 intent.putExtra("courseId", courseId);
                 intent.putExtra("assessmentId", assessmentId);
+                startActivity(intent);
+            }
+        });
+
+        editCourseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("edit course button pressed");
+                Course tempCourse = db.courseDao().getCourse(termId, courseId);
+                System.out.println("current course name: " + tempCourse.getCourse_name());
+                Intent intent = new Intent(getApplicationContext(), CourseEdit.class);
+                intent.putExtra("termId", termId);
+                intent.putExtra("courseId", courseId);
                 startActivity(intent);
             }
         });
@@ -133,6 +147,7 @@ public class CourseDetail extends AppCompatActivity {
         if (selectedCourse != null) {
             Log.d(CourseDetail.LOG_TAG, "selected course is not null");
             Date startDate = selectedCourse.getCourse_start();
+            System.out.println("Current course start date is " + startDate.toString());
             Date endDate = selectedCourse.getCourse_end();
 
             System.out.println("Millisecond date: " + startDate.toString());

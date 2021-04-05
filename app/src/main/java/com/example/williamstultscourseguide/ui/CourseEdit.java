@@ -80,6 +80,38 @@ public class CourseEdit extends AppCompatActivity implements AdapterView.OnItemS
         formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         updateViews();
 
+        courseSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("save course button pressed");
+                try {
+                    Course newCourse = new Course();
+                    newStartDate = formatter.parse(String.valueOf(courseStartDate.getText()));
+                    newEndDate = formatter.parse(String.valueOf(courseEndDate.getText()));
+                    newCourse.setCourse_id(courseId);
+                    newCourse.setTerm_id_fk(termId);
+                    newCourse.setCourse_name(String.valueOf(courseNamePlainText.getText()));
+                    newCourse.setCourse_start(newStartDate);
+                    newCourse.setCourse_end(newEndDate);
+                    newCourse.setCourse_status(String.valueOf(spinner.getSelectedItem()));
+                    db.courseDao().updateCourse(newCourse);
+                    Coursementor newMentor = new Coursementor();
+                    newMentor.setCoursementor_id(selectedCoursementor.getCoursementor_id());
+                    newMentor.setCourse_id_fk(courseId);
+                    newMentor.setCoursementor_name(String.valueOf(mentorNamePlainText.getText()));
+                    newMentor.setCoursementor_phone(String.valueOf(mentorPhonePlainText.getText()));
+                    newMentor.setCoursementor_email(String.valueOf(mentorEmailPlainText.getText()));
+                    db.coursementorDao().updateCoursementor(newMentor);
+                    Intent intent = new Intent(getApplicationContext(), CourseDetail.class);
+                    intent.putExtra("termId", termId);
+                    intent.putExtra("courseId", courseId);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         //mTextView = (TextView) findViewById(R.id.text);
 
         // Enables Always-on

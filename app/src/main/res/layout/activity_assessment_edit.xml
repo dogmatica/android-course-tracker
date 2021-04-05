@@ -60,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/nameEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="75dp"
@@ -68,21 +68,21 @@
         android:editable="true"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text="enter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner2"
+        android:id="@+id/typeSpinner"
         android:layout_width="208dp"
         android:layout_height="35dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="45dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
 
     <EditText
-        android:id="@+id/editTextDate"
+        android:id="@+id/dueDateEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -91,10 +91,10 @@
         android:ems="10"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner2" />
+        app:layout_constraintTop_toBottomOf="@+id/typeSpinner" />
 
     <EditText
-        android:id="@+id/editTextDate2"
+        android:id="@+id/goalDateEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -103,19 +103,19 @@
         android:ems="10"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+        app:layout_constraintTop_toBottomOf="@+id/dueDateEditText" />
 
     <Spinner
-        android:id="@+id/spinner3"
+        android:id="@+id/statusSpinner"
         android:layout_width="207dp"
         android:layout_height="38dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="45dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate2" />
+        app:layout_constraintTop_toBottomOf="@+id/goalDateEditText" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/assessmentSaveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -123,5 +123,5 @@
         android:clickable="true"
         android:src="@android:drawable/ic_menu_save"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner3" />
+        app:layout_constraintTop_toBottomOf="@+id/statusSpinner" />
 </androidx.constraintlayout.widget.ConstraintLayout>

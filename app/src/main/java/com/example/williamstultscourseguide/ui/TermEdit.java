@@ -70,6 +70,7 @@ public class TermEdit extends AppCompatActivity {
                     newTerm.setTerm_end(newEndDate);
                     db.termDao().updateTerm(newTerm);
                     Intent intent = new Intent(getApplicationContext(), TermsList.class);
+                    intent.putExtra("termId", termId);
                     startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
