@@ -17,6 +17,9 @@ public interface CourseDao {
     @Query("SELECT * FROM course_table WHERE term_id_fk = :termId AND course_id = :courseId")
     Course getCourse(int termId, int courseId);
 
+    @Query("SELECT * FROM course_table WHERE term_id_fk = :termId AND course_name = :courseName")
+    Course getCourseByName(int termId, String courseName);
+
     @Query("INSERT INTO course_table (term_id_fk, course_name) VALUES (:termId, \"Course Name\"); ")
     void addCourse(int termId);
 

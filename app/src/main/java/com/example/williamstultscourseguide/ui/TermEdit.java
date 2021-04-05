@@ -3,6 +3,7 @@ package com.example.williamstultscourseguide.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,8 @@ public class TermEdit extends AppCompatActivity {
     SimpleDateFormat formatter;
     Intent intent;
     Term selectedTerm;
+    Date newStartDate;
+    Date newEndDate;
 
     @Override
     protected void onResume() {
@@ -43,6 +46,7 @@ public class TermEdit extends AppCompatActivity {
         termNamePlainText = findViewById(R.id.termNamePlainText);
         termStartDate = findViewById(R.id.termStartDate);
         termEndDate = findViewById(R.id.termEndDate);
+        termSaveButton = findViewById(R.id.termSaveButton);
         db = MainDatabase.getInstance(getApplicationContext());
         intent = getIntent();
         termId = intent.getIntExtra("termId", -1);
@@ -51,6 +55,27 @@ public class TermEdit extends AppCompatActivity {
         System.out.println("current term name is " + selectedTerm.getTerm_name());
         formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         updateViews();
+
+        termSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("save term button pressed");
+                try {
+                    Term newTerm = new Term();
+                    newStartDate = formatter.parse(String.valueOf(termStartDate.getText()));
+                    newEndDate = formatter.parse(String.valueOf(termEndDate.getText()));
+                    newTerm.setTerm_id(termId);
+                    newTerm.setTerm_name(String.valueOf(termNamePlainText.getText()));
+                    newTerm.setTerm_start(newStartDate);
+                    newTerm.setTerm_end(newEndDate);
+                    db.termDao().updateTerm(newTerm);
+                    Intent intent = new Intent(getApplicationContext(), TermsList.class);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         //mTextView = (TextView) findViewById(R.id.text);
 

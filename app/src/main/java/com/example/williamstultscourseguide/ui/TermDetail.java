@@ -13,11 +13,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.williamstultscourseguide.R;
 import com.example.williamstultscourseguide.data.Course;
+import com.example.williamstultscourseguide.data.Coursementor;
 import com.example.williamstultscourseguide.data.MainDatabase;
 import com.example.williamstultscourseguide.data.Term;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -88,6 +90,42 @@ public class TermDetail extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), TermEdit.class);
                 intent.putExtra("termId", termId);
                 startActivity(intent);
+            }
+        });
+
+        addTermCourseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CourseEdit.class);
+                Calendar calendar = Calendar.getInstance();
+                int dbCount = db.courseDao().getCourseList(termId).size() + 1;
+                Course tempCourse = new Course();
+                String tempCourseName = "New Course " + dbCount;
+                tempCourse.setCourse_name(tempCourseName);
+                tempCourse.setCourse_start(calendar.getTime());
+                tempCourse.setCourse_end(calendar.getTime());
+                tempCourse.setCourse_status("Pending");
+                tempCourse.setCourse_notes("Enter notes here");
+                tempCourse.setTerm_id_fk(termId);
+                db.courseDao().insertCourse(tempCourse);
+                tempCourse = db.courseDao().getCourseByName(termId, tempCourseName);
+                int courseId = tempCourse.getCourse_id();
+                intent.putExtra("termId", termId);
+                intent.putExtra("courseId", courseId);
+                int dbMentorCount = db.coursementorDao().getCoursementorList().size() + 1;
+                Coursementor tempCoursementor = new Coursementor();
+                String tempCoursementorName = "New Mentor " + dbMentorCount;
+                tempCoursementor.setCoursementor_name(tempCoursementorName);
+                tempCoursementor.setCoursementor_phone("000-000-0000");
+                tempCoursementor.setCoursementor_email("mentor@example.edu");
+                tempCoursementor.setCourse_id_fk(courseId);
+                db.coursementorDao().insertCoursementor(tempCoursementor);
+                tempCoursementor = db.coursementorDao().getCoursementor(courseId);
+                int coursementorId = tempCoursementor.getCoursementor_id();
+                intent.putExtra("coursementorId", coursementorId);
+                System.out.println("add course button pressed");
+                startActivity(intent);
+
             }
         });
 
