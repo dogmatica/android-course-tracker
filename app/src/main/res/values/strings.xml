@@ -39,4 +39,5 @@
         <item>Objective</item>
 
     </string-array>
+    <string name="title_activity_course_note_edit">CourseNoteEdit</string>
 </resources>

@@ -70,8 +70,8 @@ public class CourseEdit extends AppCompatActivity implements AdapterView.OnItemS
 
         db = MainDatabase.getInstance(getApplicationContext());
         intent = getIntent();
-        termId = intent.getIntExtra("termId", termId);
-        courseId = intent.getIntExtra("courseId", courseId);
+        termId = intent.getIntExtra("termId", -1);
+        courseId = intent.getIntExtra("courseId", -1);
         System.out.println("current course is " + courseId);
         selectedTerm = db.termDao().getTerm(termId);
         selectedCourse = db.courseDao().getCourse(termId, courseId);
