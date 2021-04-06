@@ -81,6 +81,32 @@ public class AssessmentEdit extends AppCompatActivity implements AdapterView.OnI
         formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         updateViews();
 
+        assessmentSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("assessment save button pressed");
+                try {
+                    Assessment newAssessment = new Assessment();
+                    newDueDate = formatter.parse(String.valueOf(dueDateEditText.getText()));
+                    newGoalDate = formatter.parse(String.valueOf(goalDateEditText.getText()));
+                    newAssessment.setAssessment_id(assessmentId);
+                    newAssessment.setCourse_id_fk(courseId);
+                    newAssessment.setAssessment_title(String.valueOf(nameEditText.getText()));
+                    newAssessment.setAssessment_type(String.valueOf(typeSpinner.getSelectedItem()));
+                    newAssessment.setAssessment_due(newDueDate);
+                    newAssessment.setAssessment_goal(newGoalDate);
+                    newAssessment.setAssessment_status(String.valueOf(statusSpinner.getSelectedItem()));
+                    db.assessmentDao().updateAssessment(newAssessment);
+                    Intent intent = new Intent(getApplicationContext(), AssessmentDetail.class);
+                    intent.putExtra("courseId", courseId);
+                    intent.putExtra("assessmentId", assessmentId);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         //mTextView = (TextView) findViewById(R.id.text);
 
         // Enables Always-on

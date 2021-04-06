@@ -13,9 +13,9 @@ import java.util.Date;
         foreignKeys = @ForeignKey(
                 entity = Course.class,
                 parentColumns = "course_id",
-                childColumns = "course_id_fk",
+                childColumns = "course_id_fk"
                 ),
-        indices = {@Index("assessment_title", unique = true)}
+        indices = {@Index(value = "assessment_title", unique = true)}
 )
 
 public class Assessment {

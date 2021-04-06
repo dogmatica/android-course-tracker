@@ -2,13 +2,16 @@ package com.example.williamstultscourseguide.data;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
 //Defining the term table
 
-@Entity(tableName = "term_table")
+@Entity(tableName = "term_table",
+        indices = {@Index(value = "term_name", unique = true)}
+        )
 public class Term {
     @PrimaryKey(autoGenerate = true)
     private int term_id;

@@ -3,6 +3,7 @@ package com.example.williamstultscourseguide.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -62,6 +63,19 @@ public class AssessmentDetail extends AppCompatActivity {
         formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 
         updateViews();
+
+        assessmentEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("edit assessment button pressed");
+                Assessment tempAssessment = db.assessmentDao().getAssessment(courseId, assessmentId);
+                System.out.println("current assessment title is: " + tempAssessment.getAssessment_title());
+                Intent intent = new Intent(getApplicationContext(), AssessmentEdit.class);
+                intent.putExtra("courseId", courseId);
+                intent.putExtra("assessmentId", assessmentId);
+                startActivity(intent);
+            }
+        });
 
         //mTextView = (TextView) findViewById(R.id.notesTitle);
 

@@ -3,6 +3,7 @@ package com.example.williamstultscourseguide.data;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
@@ -16,7 +17,8 @@ import static androidx.room.ForeignKey.CASCADE;
                         parentColumns = "term_id",
                         childColumns = "term_id_fk",
                         onDelete = CASCADE
-                )
+                ),
+        indices = {@Index(value = "course_name", unique = true)}
 )
 
 public class Course {

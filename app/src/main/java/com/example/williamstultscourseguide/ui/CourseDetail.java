@@ -83,6 +83,7 @@ public class CourseDetail extends AppCompatActivity {
         button = findViewById(R.id.button);
         button2 = findViewById(R.id.button2);
         editCourseButton = findViewById(R.id.editCourseButton);
+        addCourseAssessmentButton = findViewById(R.id.addCourseAssessmentButton);
         //courseNoteTextView = findViewById(R.id.courseNoteTextView);
         db = MainDatabase.getInstance(getApplicationContext());
         intent = getIntent();

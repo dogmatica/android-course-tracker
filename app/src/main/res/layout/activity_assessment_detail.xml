@@ -133,7 +133,9 @@
         android:id="@+id/assessmentStatusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="65dp"
         android:text="TextView"
-        tools:layout_editor_absoluteX="288dp"
-        tools:layout_editor_absoluteY="212dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/assessmentGoalTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
