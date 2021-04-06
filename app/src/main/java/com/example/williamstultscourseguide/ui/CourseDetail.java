@@ -20,6 +20,7 @@ import com.example.williamstultscourseguide.data.MainDatabase;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -115,6 +116,31 @@ public class CourseDetail extends AppCompatActivity {
                 intent.putExtra("termId", termId);
                 intent.putExtra("courseId", courseId);
                 startActivity(intent);
+            }
+        });
+
+        addCourseAssessmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("add assessment button pressed");
+                Intent intent = new Intent(getApplicationContext(), AssessmentEdit.class);
+                Calendar calendar = Calendar.getInstance();
+                int dbCount = db.assessmentDao().getAssessmentList().size() + 1;
+                Assessment tempAssessment = new Assessment();
+                String tempAssessmentName = "New Assessment " + dbCount;
+                tempAssessment.setCourse_id_fk(courseId);
+                tempAssessment.setAssessment_title(tempAssessmentName);
+                tempAssessment.setAssessment_type("Objective");
+                tempAssessment.setAssessment_status("Pending");
+                tempAssessment.setAssessment_due(calendar.getTime());
+                tempAssessment.setAssessment_goal(calendar.getTime());
+                db.assessmentDao().insertAssessment(tempAssessment);
+                tempAssessment = db.assessmentDao().getAssessmentByTitle(tempAssessmentName);
+                int assessmentId = tempAssessment.getAssessment_id();
+                intent.putExtra("courseId", courseId);
+                intent.putExtra("assessmentId", assessmentId);
+                startActivity(intent);
+
             }
         });
 

@@ -3,6 +3,7 @@ package com.example.williamstultscourseguide.data;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
@@ -12,8 +13,9 @@ import java.util.Date;
         foreignKeys = @ForeignKey(
                 entity = Course.class,
                 parentColumns = "course_id",
-                childColumns = "course_id_fk"
-                )
+                childColumns = "course_id_fk",
+                ),
+        indices = {@Index("assessment_title", unique = true)}
 )
 
 public class Assessment {

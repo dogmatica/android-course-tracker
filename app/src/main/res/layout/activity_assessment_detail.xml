@@ -93,7 +93,7 @@
         android:clickable="true"
         android:src="@android:drawable/ic_menu_edit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/assessmentGoalTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/assessmentStatusTextView" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/assessmentDeleteButton"
@@ -104,15 +104,36 @@
         android:clickable="true"
         android:src="@android:drawable/ic_delete"
         app:layout_constraintEnd_toStartOf="@+id/assessmentEditButton"
-        app:layout_constraintTop_toBottomOf="@+id/assessmentGoalTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/assessmentStatusTextView" />
 
     <Button
         android:id="@+id/assessmentAlertButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="75dp"
+        android:layout_marginEnd="50dp"
         android:text="Set Alert"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/assessmentDeleteButton" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="25dp"
+        android:text="Status"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goalTextView" />
+
+    <TextView
+        android:id="@+id/assessmentStatusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="288dp"
+        tools:layout_editor_absoluteY="212dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
