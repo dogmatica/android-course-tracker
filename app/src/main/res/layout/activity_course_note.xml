@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/courseNote"
         android:layout_width="290dp"
         android:layout_height="349dp"
         android:layout_marginStart="54dp"

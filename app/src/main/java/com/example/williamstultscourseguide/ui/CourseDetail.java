@@ -157,6 +157,8 @@ public class CourseDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CourseNote.class);
+                intent.putExtra("termId", termId);
+                intent.putExtra("courseId", courseId);
                 startActivity(intent);
             }
         });
