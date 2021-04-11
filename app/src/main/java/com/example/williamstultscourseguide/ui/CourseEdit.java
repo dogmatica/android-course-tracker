@@ -11,23 +11,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.williamstultscourseguide.R;
 import com.example.williamstultscourseguide.data.Course;
 import com.example.williamstultscourseguide.data.Coursementor;
 import com.example.williamstultscourseguide.data.MainDatabase;
 import com.example.williamstultscourseguide.data.Term;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CourseEdit extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    //private TextView mTextView;
+    //CourseEdit view enables the user to add a new course or edit an existing course.
+
     public static String LOG_TAG = "CourseEditActivityLog";
     MainDatabase db;
     int termId;
@@ -54,6 +52,8 @@ public class CourseEdit extends AppCompatActivity implements AdapterView.OnItemS
         updateViews();
     }
 
+    //Inflation of hidden menu on action bar
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -61,9 +61,12 @@ public class CourseEdit extends AppCompatActivity implements AdapterView.OnItemS
         return true;
     }
 
+    //Actions related to hidden menu selection
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            //When "Home" is selected:
             case R.id.home:
                 Intent intent = new Intent(getApplicationContext(), Home.class);
                 startActivity(intent);
@@ -90,7 +93,6 @@ public class CourseEdit extends AppCompatActivity implements AdapterView.OnItemS
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-
         db = MainDatabase.getInstance(getApplicationContext());
         intent = getIntent();
         termId = intent.getIntExtra("termId", -1);
@@ -101,13 +103,20 @@ public class CourseEdit extends AppCompatActivity implements AdapterView.OnItemS
         selectedCoursementor = db.coursementorDao().getCoursementor(courseId);
         System.out.println("current course name is " + selectedCourse.getCourse_name());
         formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+
+        //Query the database and update current layout with appropriate data:
+
         updateViews();
+
+        //When the save button for the course is pressed
 
         courseSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("save course button pressed");
+                //Gathering field entries and inserting into course table
+                // via a Course and Coursementor object
                 try {
+                    //First the Course is created and inserted
                     Course newCourse = new Course();
                     newStartDate = formatter.parse(String.valueOf(courseStartDate.getText()));
                     newEndDate = formatter.parse(String.valueOf(courseEndDate.getText()));
@@ -118,6 +127,7 @@ public class CourseEdit extends AppCompatActivity implements AdapterView.OnItemS
                     newCourse.setCourse_end(newEndDate);
                     newCourse.setCourse_status(String.valueOf(spinner.getSelectedItem()));
                     db.courseDao().updateCourse(newCourse);
+                    //Then the Coursementor is created and inserted
                     Coursementor newMentor = new Coursementor();
                     newMentor.setCoursementor_id(selectedCoursementor.getCoursementor_id());
                     newMentor.setCourse_id_fk(courseId);
@@ -125,6 +135,8 @@ public class CourseEdit extends AppCompatActivity implements AdapterView.OnItemS
                     newMentor.setCoursementor_phone(String.valueOf(mentorPhonePlainText.getText()));
                     newMentor.setCoursementor_email(String.valueOf(mentorEmailPlainText.getText()));
                     db.coursementorDao().updateCoursementor(newMentor);
+                    //Finally the course detail view is loaded with the new or edited course
+                    //passing variables termId and courseId
                     Intent intent = new Intent(getApplicationContext(), CourseDetail.class);
                     intent.putExtra("termId", termId);
                     intent.putExtra("courseId", courseId);
@@ -134,22 +146,17 @@ public class CourseEdit extends AppCompatActivity implements AdapterView.OnItemS
                 }
             }
         });
-
-        //mTextView = (TextView) findViewById(R.id.text);
-
-        // Enables Always-on
-        //setAmbientEnabled();
     }
+
+    //Query the database and update current layout with appropriate data:
 
     private void updateViews() {
         if (selectedCourse != null) {
             Log.d(CourseEdit.LOG_TAG, "selected course is not null");
             Date startDate = selectedCourse.getCourse_start();
             Date endDate = selectedCourse.getCourse_end();
-            System.out.println("Millisecond date: " + startDate.toString());
             String tempStart = formatter.format(startDate);
             String tempEnd = formatter.format(endDate);
-            System.out.println("Formatted date: " + tempStart);
             courseNamePlainText.setText(selectedCourse.getCourse_name());
             courseStartDate.setText(tempStart);
             courseEndDate.setText(tempEnd);
@@ -161,6 +168,8 @@ public class CourseEdit extends AppCompatActivity implements AdapterView.OnItemS
             selectedCourse = new Course();
         }
     }
+
+    //Default methods for menu actions
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {

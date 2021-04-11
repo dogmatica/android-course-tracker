@@ -13,18 +13,15 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.williamstultscourseguide.R;
 import com.example.williamstultscourseguide.data.Course;
 import com.example.williamstultscourseguide.data.Coursementor;
 import com.example.williamstultscourseguide.data.MainDatabase;
 import com.example.williamstultscourseguide.data.Term;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,7 +29,11 @@ import java.util.List;
 
 public class TermDetail extends AppCompatActivity {
 
-    //private TextView mTextView;
+    /*
+    TermDetail view displays name, start and end dates,
+    as well as all courses for the term
+    */
+
     public static String LOG_TAG = "TermDetailActivityLog";
     MainDatabase db;
     FloatingActionButton addTermCourseButton;
@@ -56,6 +57,8 @@ public class TermDetail extends AppCompatActivity {
         updateViews();
     }
 
+    //Inflation of hidden menu on action bar
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -63,9 +66,12 @@ public class TermDetail extends AppCompatActivity {
         return true;
     }
 
+    //Actions related to hidden menu selection
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            //When "Home" is selected:
             case R.id.home:
                 Intent intent = new Intent(getApplicationContext(), Home.class);
                 startActivity(intent);
@@ -94,13 +100,18 @@ public class TermDetail extends AppCompatActivity {
         termId = intent.getIntExtra("termId", -1);
         selectedTerm = db.termDao().getTerm(termId);
         formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+
+        //Query the database and update current layout with appropriate data:
+
         updateViews();
         updateList();
+
+        //When a course that is a member of the displayed list is pressed:
 
         courseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("Position clicked: " + position);
+                //Loading the course detail view, passing variable termId and courseId
                 Intent intent = new Intent(getApplicationContext(), CourseDetail.class);
                 int courseId = db.courseDao().getCourseList(termId).get(position).getCourse_id();
                 intent.putExtra("termId", termId);
@@ -109,21 +120,26 @@ public class TermDetail extends AppCompatActivity {
             }
         });
 
+        //When the edit button for the term is pressed:
+
         editTermButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("edit term button pressed");
-                Term tempTerm = db.termDao().getTerm(termId);
-                System.out.println("current term name: " + tempTerm.getTerm_name());
+                //Loading the add / edit term view, passing variable termId
                 Intent intent = new Intent(getApplicationContext(), TermEdit.class);
                 intent.putExtra("termId", termId);
                 startActivity(intent);
             }
         });
 
+        //When the add course button under the courses list is pressed:
+
         addTermCourseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //A new blank course is created, populated with default values,
+                //and loaded into the add / edit course view
+                //variables courseId and termId are passed
                 Intent intent = new Intent(getApplicationContext(), CourseEdit.class);
                 Calendar calendar = Calendar.getInstance();
                 int dbCount = db.courseDao().getCourseList(termId).size() + 1;
@@ -151,17 +167,20 @@ public class TermDetail extends AppCompatActivity {
                 tempCoursementor = db.coursementorDao().getCoursementor(courseId);
                 int coursementorId = tempCoursementor.getCoursementor_id();
                 intent.putExtra("coursementorId", coursementorId);
-                System.out.println("add course button pressed");
                 startActivity(intent);
-
             }
         });
+
+        //When the delete button for the term is pressed
 
         deleteTermButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //A confirmation dialog is shown asking the user
+                // if they are sure they want to delete:
                 AlertDialog dialog = new AlertDialog.Builder(TermDetail.this).setTitle("Confirm").setMessage("Delete Term?").setPositiveButton("Ok", null).setNegativeButton("Cancel", null).show();
                 Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                //When the user clicks "Ok" to delete:
                 positiveButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -177,26 +196,19 @@ public class TermDetail extends AppCompatActivity {
                         }
                     }
                 });
+                //If the user clicks cancel, the previous screen is restored
             }
         });
-
-
-
-        //mTextView = (TextView) findViewById(R.id.text);
-
-        // Enables Always-on
-        //setAmbientEnabled();
     }
+
+    //Query the database and update current layout with appropriate data:
 
     private void updateList() {
         List<Course> allTermCourses = db.courseDao().getCourseList(termId);
-        System.out.println("Number of rows in course table matching " + termId + ": " + allTermCourses.size());
-
         String[] items = new String[allTermCourses.size()];
         if(!allTermCourses.isEmpty()) {
             for (int i = 0; i < allTermCourses.size(); i++) {
                 items[i] = allTermCourses.get(i).getCourse_name();
-                System.out.println("Course in position = " + i + " with name = " + items[i]);
             }
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
@@ -204,16 +216,15 @@ public class TermDetail extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
+    //Query the database and update current layout with appropriate data:
+
     private void updateViews() {
         if (selectedTerm != null) {
             Log.d(TermDetail.LOG_TAG, "selected term is not null");
             Date startDate = selectedTerm.getTerm_start();
             Date endDate = selectedTerm.getTerm_end();
-
-            System.out.println("Millisecond date: " + startDate.toString());
             String tempStart = formatter.format(startDate);
             String tempEnd = formatter.format(endDate);
-            System.out.println("Formatted date: " + tempStart);
             termStartTextView.setText(tempStart);
             termEndTextView.setText(tempEnd);
             termTitleTextView.setText(selectedTerm.getTerm_name());

@@ -8,21 +8,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.williamstultscourseguide.R;
 import com.example.williamstultscourseguide.data.MainDatabase;
 import com.example.williamstultscourseguide.data.Term;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TermEdit extends AppCompatActivity {
 
-    //private TextView mTextView;
+    //TermEdit view enables the user to add a new term or edit an existing term.
+
     public static String LOG_TAG = "TermEditActivityLog";
     MainDatabase db;
     EditText termNamePlainText;
@@ -42,6 +40,8 @@ public class TermEdit extends AppCompatActivity {
         updateViews();
     }
 
+    //Inflation of hidden menu on action bar
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -49,9 +49,12 @@ public class TermEdit extends AppCompatActivity {
         return true;
     }
 
+    //Actions related to hidden menu selection
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            //When "Home" is selected:
             case R.id.home:
                 Intent intent = new Intent(getApplicationContext(), Home.class);
                 startActivity(intent);
@@ -73,16 +76,20 @@ public class TermEdit extends AppCompatActivity {
         db = MainDatabase.getInstance(getApplicationContext());
         intent = getIntent();
         termId = intent.getIntExtra("termId", -1);
-        System.out.println("Current term is " + String.valueOf(termId));
         selectedTerm = db.termDao().getTerm(termId);
-        System.out.println("current term name is " + selectedTerm.getTerm_name());
         formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+
+        //Query the database and update current layout with appropriate data:
+
         updateViews();
+
+        //When the save button for the assessment is pressed:
 
         termSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("save term button pressed");
+                //Gathering field entries and inserting into term table
+                // via a Term object
                 try {
                     Term newTerm = new Term();
                     newStartDate = formatter.parse(String.valueOf(termStartDate.getText()));
@@ -100,22 +107,17 @@ public class TermEdit extends AppCompatActivity {
                 }
             }
         });
-
-        //mTextView = (TextView) findViewById(R.id.text);
-
-        // Enables Always-on
-        //setAmbientEnabled();
     }
+
+    //Query the database and update current layout with appropriate data:
 
     private void updateViews() {
         if (selectedTerm != null) {
             Log.d(TermEdit.LOG_TAG, "selected term is not null");
             Date startDate = selectedTerm.getTerm_start();
             Date endDate = selectedTerm.getTerm_end();
-            System.out.println("Millisecond date: " + startDate.toString());
             String tempStart = formatter.format(startDate);
             String tempEnd = formatter.format(endDate);
-            System.out.println("Formatted Date: " + tempStart);
             termStartDate.setText(tempStart);
             termEndDate.setText(tempEnd);
             termNamePlainText.setText(selectedTerm.getTerm_name());

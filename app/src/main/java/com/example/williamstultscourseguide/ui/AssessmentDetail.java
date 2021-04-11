@@ -67,12 +67,16 @@ public class AssessmentDetail extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //The hidden menu in the AssessmentDetail view provides additional options:
         switch (item.getItemId()) {
+            //When "Home" is selected:
             case R.id.home:
                 Intent intent = new Intent(getApplicationContext(), Home.class);
                 startActivity(intent);
                 return true;
+            //When Alert > Goal Date is selected:
             case R.id.item1:
+                //A unique value for the request code is generated based on the current time in milliseconds
                 int requestCode = (int) System.currentTimeMillis();
                 System.out.println("Request code is " + requestCode);
                 Date alertDate = selectedAssessment.getAssessment_goal();

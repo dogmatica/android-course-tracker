@@ -9,17 +9,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.williamstultscourseguide.R;
 import com.example.williamstultscourseguide.data.Course;
 import com.example.williamstultscourseguide.data.MainDatabase;
 
 public class CourseNote extends AppCompatActivity {
 
-    //private TextView mTextView;
+    //The CourseNote view displays the notes for the current course
+
     public static String LOG_TAG = "CourseNoteActivityLog";
     MainDatabase db;
     int courseId;
@@ -35,6 +34,8 @@ public class CourseNote extends AppCompatActivity {
         updateViews();
     }
 
+    //Inflation of hidden menu on action bar
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -43,14 +44,21 @@ public class CourseNote extends AppCompatActivity {
         return true;
     }
 
+    //Actions related to hidden menu selection
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //The hidden menu in the CourseNote view provides additional options:
         switch (item.getItemId()) {
+            //When "Home" is selected:
             case R.id.home:
                 Intent intent = new Intent(getApplicationContext(), Home.class);
                 startActivity(intent);
                 return true;
+            //When Share is selected:
             case R.id.share:
+                //A chooser is displayed enabling the user to select their method of sharing
+                //The note text is passed to the user's selection in plain text
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, courseNote.getText());
@@ -69,34 +77,31 @@ public class CourseNote extends AppCompatActivity {
         setTitle("Course Note");
         courseNote = findViewById(R.id.courseNote);
         editNotesButton = findViewById(R.id.editNotesButton);
-
         db = MainDatabase.getInstance(getApplicationContext());
         intent = getIntent();
         courseId = intent.getIntExtra("courseId", -1);
         termId = intent.getIntExtra("termId", -1);
         selectedCourse = db.courseDao().getCourse(termId, courseId);
 
+        //Query the database and update current layout with appropriate data:
+
         updateViews();
+
+        //When the edit button for the note is pressed:
 
         editNotesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("edit note button pressed");
-                Course tempCourse = db.courseDao().getCourse(termId, courseId);
-                System.out.println("current course name: " + tempCourse.getCourse_name());
+                //Loading the add / edit note view, passing variables courseId and termId:
                 Intent intent = new Intent(getApplicationContext(), CourseNoteEdit.class);
                 intent.putExtra("termId", termId);
                 intent.putExtra("courseId", courseId);
                 startActivity(intent);
             }
         });
-        
+     }
 
-        //mTextView = (TextView) findViewById(R.id.text);
-
-        // Enables Always-on
-        //setAmbientEnabled();
-    }
+    //Query the database and update current layout with appropriate data:
 
     private void updateViews() {
         if (selectedCourse != null) {

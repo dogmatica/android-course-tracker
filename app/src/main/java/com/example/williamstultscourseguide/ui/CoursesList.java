@@ -9,10 +9,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.williamstultscourseguide.R;
 import com.example.williamstultscourseguide.data.Course;
 import com.example.williamstultscourseguide.data.MainDatabase;
@@ -21,7 +19,8 @@ import java.util.List;
 
 public class CoursesList extends AppCompatActivity {
 
-    //private TextView mTextView;
+    //CoursesList view displays a selectable ListView of all courses currently in the course table
+
     public static String LOG_TAG = "CoursesListActivityLog";
     MainDatabase db;
     ListView allCoursesList;
@@ -30,8 +29,9 @@ public class CoursesList extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         updateList();
-
     }
+
+    //Inflation of hidden menu on action bar
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -40,9 +40,12 @@ public class CoursesList extends AppCompatActivity {
         return true;
     }
 
+    //Actions related to hidden menu selection
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            //When "Home" is selected:
             case R.id.home:
                 Intent intent = new Intent(getApplicationContext(), Home.class);
                 startActivity(intent);
@@ -59,37 +62,36 @@ public class CoursesList extends AppCompatActivity {
         setTitle("All Courses");
         allCoursesList = findViewById(R.id.allCoursesList);
         db = MainDatabase.getInstance(getApplicationContext());
+
+        //Query the database and update current layout with appropriate data:
+
         updateList();
+
+        //When a course that is a member of the displayed list is pressed:
 
         allCoursesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("Position clicked: " + position);
+                //Loading the course detail view, passing variables courseId and termId:
                 Intent intent = new Intent(getApplicationContext(), CourseDetail.class);
                 int courseId = db.courseDao().getAllCourses().get(position).getCourse_id();
                 int termId = db.courseDao().getAllCourses().get(position).getTerm_id_fk();
-                //intent.putExtra("courseId", courseId);
                 intent.putExtra("courseId", courseId);
                 intent.putExtra("termId", termId);
                 startActivity(intent);
             }
         });
-
-        //mTextView = (TextView) findViewById(R.id.notesTitle);
-
-        // Enables Always-on
-        //setAmbientEnabled();
     }
+
+    //Query the database and update current layout with appropriate data:
 
     private void updateList() {
         List<Course> allCourses = db.courseDao().getAllCourses();
-        System.out.println("Number of rows in course table: " + allCourses.size());
-
+        //String array is created from the database query results
         String[] items = new String[allCourses.size()];
         if(!allCourses.isEmpty()) {
             for (int i = 0; i < allCourses.size(); i++) {
                 items[i] = allCourses.get(i).getCourse_name();
-                System.out.println("Course in position = " + i + " with name = " + items[i]);
             }
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);

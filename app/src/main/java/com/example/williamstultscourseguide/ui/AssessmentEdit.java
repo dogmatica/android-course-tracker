@@ -66,6 +66,7 @@ public class AssessmentEdit extends AppCompatActivity implements AdapterView.OnI
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            //When "Home" is selected:
             case R.id.home:
                 Intent intent = new Intent(getApplicationContext(), Home.class);
                 startActivity(intent);
@@ -94,7 +95,6 @@ public class AssessmentEdit extends AppCompatActivity implements AdapterView.OnI
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         statusSpinner.setAdapter(adapter1);
         statusSpinner.setOnItemSelectedListener(this);
-
         db = MainDatabase.getInstance(getApplicationContext());
         intent = getIntent();
         termId = intent.getIntExtra("termId", termId);
@@ -115,7 +115,8 @@ public class AssessmentEdit extends AppCompatActivity implements AdapterView.OnI
         assessmentSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Gathering field entries and inserting into assessment table via an Assessment object
+                //Gathering field entries and inserting into assessment table
+                // via an Assessment object
                 try {
                     Assessment newAssessment = new Assessment();
                     newDueDate = formatter.parse(String.valueOf(dueDateEditText.getText()));

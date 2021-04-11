@@ -5,9 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.ContextWrapper;
-
 import androidx.core.app.NotificationCompat;
-
 import com.example.williamstultscourseguide.R;
 
 public class NotificationHelper extends ContextWrapper {
@@ -34,9 +32,7 @@ public class NotificationHelper extends ContextWrapper {
         if (nManager == null) {
             nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         }
-
         return nManager;
-
     }
 
     public NotificationCompat.Builder getChannel1Notification(String title, String message) {

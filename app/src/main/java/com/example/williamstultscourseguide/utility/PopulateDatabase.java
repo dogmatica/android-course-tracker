@@ -2,15 +2,12 @@ package com.example.williamstultscourseguide.utility;
 
 import android.content.Context;
 import android.util.Log;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.williamstultscourseguide.data.Assessment;
 import com.example.williamstultscourseguide.data.Course;
 import com.example.williamstultscourseguide.data.Coursementor;
 import com.example.williamstultscourseguide.data.MainDatabase;
 import com.example.williamstultscourseguide.data.Term;
-
 import java.util.Calendar;
 import java.util.List;
 

@@ -8,10 +8,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.williamstultscourseguide.R;
 import com.example.williamstultscourseguide.data.Course;
 import com.example.williamstultscourseguide.data.MainDatabase;
@@ -20,7 +18,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class CourseNoteEdit extends AppCompatActivity {
 
-    //private TextView mTextView;
+    //CourseNoteEdit view enables the user to an existing note.
+
     public static String LOG_TAG = "NoteEditActivityLog";
     MainDatabase db;
     int termId;
@@ -37,6 +36,8 @@ public class CourseNoteEdit extends AppCompatActivity {
         updateViews();
     }
 
+    //Inflation of hidden menu on action bar
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -44,9 +45,12 @@ public class CourseNoteEdit extends AppCompatActivity {
         return true;
     }
 
+    //Actions related to hidden menu selection
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            //When "Home" is selected:
             case R.id.home:
                 Intent intent = new Intent(getApplicationContext(), Home.class);
                 startActivity(intent);
@@ -63,19 +67,23 @@ public class CourseNoteEdit extends AppCompatActivity {
         setTitle("Add or Edit Note");
         noteEditText = findViewById(R.id.noteEditText);
         noteSaveButton = findViewById(R.id.noteSaveButton);
-
         db = MainDatabase.getInstance(getApplicationContext());
         intent = getIntent();
         termId = intent.getIntExtra("termId", -1);
         courseId = intent.getIntExtra("courseId", -1);
         selectedTerm = db.termDao().getTerm(termId);
         selectedCourse = db.courseDao().getCourse(termId, courseId);
+
+        //Query the database and update current layout with appropriate data:
+
         updateViews();
+
+        //When the save button for the note is pressed:
 
         noteSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("save note button pressed");
+                //Gathering field entries and updating course table
                 selectedCourse.setCourse_notes(String.valueOf(noteEditText.getText()));
                 db.courseDao().updateCourse(selectedCourse);
                 Intent intent = new Intent(getApplicationContext(), CourseDetail.class);
@@ -84,12 +92,9 @@ public class CourseNoteEdit extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        //mTextView = (TextView) findViewById(R.id.text);
-
-        // Enables Always-on
-        //setAmbientEnabled();
     }
+
+    //Query the database and update current layout with appropriate data:
 
     private void updateViews() {
         if (selectedCourse != null) {
