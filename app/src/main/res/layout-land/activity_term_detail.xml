@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/boxInsetLayout3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.TermDetail"
+    tools:deviceIds="wear">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addTermCourseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="65dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_input_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/courseList" />
+
+    <ListView
+        android:id="@+id/courseList"
+        android:layout_width="322dp"
+        android:layout_height="198dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="65dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/termTitleTextView" />
+
+    <TextView
+        android:id="@+id/termTitleTextView"
+        android:layout_width="113dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="145dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="145dp"
+        android:text="Term Title"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/startDateTextView"
+        android:layout_width="91dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="15dp"
+        android:text="Start Date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/termTitleTextView" />
+
+    <TextView
+        android:id="@+id/endDateTextView"
+        android:layout_width="91dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="10dp"
+        android:text="End Date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startDateTextView" />
+
+    <TextView
+        android:id="@+id/termStartTextView"
+        android:layout_width="91dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="15dp"
+        android:text="Term Start"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toEndOf="@+id/startDateTextView"
+        app:layout_constraintTop_toBottomOf="@+id/termTitleTextView" />
+
+    <TextView
+        android:id="@+id/termEndTextView"
+        android:layout_width="91dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:text="Term End"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toEndOf="@+id/endDateTextView"
+        app:layout_constraintTop_toBottomOf="@+id/termStartTextView" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/editTermButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="32dp"
+        android:clickable="true"
+        app:layout_constraintEnd_toStartOf="@+id/addTermCourseButton"
+        app:layout_constraintTop_toBottomOf="@+id/courseList"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/deleteTermButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="32dp"
+        android:clickable="true"
+        app:layout_constraintEnd_toStartOf="@+id/editTermButton"
+        app:layout_constraintTop_toBottomOf="@+id/courseList"
+        app:srcCompat="@android:drawable/ic_delete" />
+</androidx.constraintlayout.widget.ConstraintLayout>
