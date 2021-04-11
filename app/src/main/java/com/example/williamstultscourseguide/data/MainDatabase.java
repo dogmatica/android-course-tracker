@@ -9,7 +9,7 @@ import androidx.room.TypeConverters;
 
 import com.example.williamstultscourseguide.utility.Converters;
 
-@Database(entities = {Term.class, Course.class, Coursementor.class, Assessment.class}, exportSchema = false, version = 5)
+@Database(entities = {Term.class, Course.class, Coursementor.class, Assessment.class}, exportSchema = false, version = 6)
 @TypeConverters({Converters.class})
 public abstract class MainDatabase extends RoomDatabase {
 

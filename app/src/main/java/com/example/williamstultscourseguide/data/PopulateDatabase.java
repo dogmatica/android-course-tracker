@@ -86,7 +86,7 @@ public class PopulateDatabase extends AppCompatActivity {
         tempCourse1.setCourse_name("Coders Anonymous");
         tempCourse1.setCourse_start(start.getTime());
         tempCourse1.setCourse_end(end.getTime());
-        tempCourse1.setCourse_notes("PrePopulate Notes: notes notes notes notes notes");
+        tempCourse1.setCourse_notes("Auto-Populated Notes");
         tempCourse1.setCourse_status("Completed");
         tempCourse1.setTerm_id_fk(termList.get(0).getTerm_id());
 
@@ -97,7 +97,7 @@ public class PopulateDatabase extends AppCompatActivity {
         tempCourse2.setCourse_name("The Suspicious Donut");
         tempCourse2.setCourse_start(start.getTime());
         tempCourse2.setCourse_end(end.getTime());
-        tempCourse2.setCourse_notes("PrePopulate Notes: notes notes notes notes notes");
+        tempCourse2.setCourse_notes("Auto-Populated Notes");
         tempCourse2.setCourse_status("Completed");
         tempCourse2.setTerm_id_fk(termList.get(0).getTerm_id());
 
@@ -108,7 +108,7 @@ public class PopulateDatabase extends AppCompatActivity {
         tempCourse3.setCourse_name("Campus Conspiracies");
         tempCourse3.setCourse_start(start.getTime());
         tempCourse3.setCourse_end(end.getTime());
-        tempCourse3.setCourse_notes("PrePopulate Notes: notes notes notes notes notes");
+        tempCourse3.setCourse_notes("Auto-Populated Notes");
         tempCourse3.setCourse_status("In-Progress");
         tempCourse3.setTerm_id_fk(termList.get(0).getTerm_id());
 
