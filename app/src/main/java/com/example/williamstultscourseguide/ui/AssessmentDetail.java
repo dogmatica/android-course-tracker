@@ -105,6 +105,7 @@ public class AssessmentDetail extends AppCompatActivity {
         assessmentAlertButton = findViewById(R.id.assessmentAlertButton);
         db = MainDatabase.getInstance(getApplicationContext());
         intent = getIntent();
+        termId = intent.getIntExtra("termId", -1);
         courseId = intent.getIntExtra("courseId", -1);
         assessmentId = intent.getIntExtra("assessmentId", -1);
         selectedAssessment = db.assessmentDao().getAssessment(courseId, assessmentId);
