@@ -39,6 +39,7 @@ public class CourseNote extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_home, menu);
+        inflater.inflate(R.menu.menu_note_share, menu);
         return true;
     }
 
@@ -49,6 +50,13 @@ public class CourseNote extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Home.class);
                 startActivity(intent);
                 return true;
+            case R.id.share:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, courseNote.getText());
+                sendIntent.setType("text/plain");
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
             default:
                 return super.onOptionsItemSelected(item);
         }
