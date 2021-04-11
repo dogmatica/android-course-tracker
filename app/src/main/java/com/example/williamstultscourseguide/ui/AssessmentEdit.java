@@ -19,7 +19,6 @@ import com.example.williamstultscourseguide.R;
 import com.example.williamstultscourseguide.data.Assessment;
 import com.example.williamstultscourseguide.data.Course;
 import com.example.williamstultscourseguide.data.MainDatabase;
-import com.example.williamstultscourseguide.data.Term;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
@@ -27,15 +26,15 @@ import java.util.Date;
 
 public class AssessmentEdit extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    //private TextView mTextView;
+    //AssessmentEdit view enables the user to add a new assessment or edit an existing assessment.
+
     public static String LOG_TAG = "AssessmentEditActivityLog";
     MainDatabase db;
+    Intent intent;
     int termId;
     int courseId;
     int assessmentId;
     SimpleDateFormat formatter;
-    Intent intent;
-    Term selectedTerm;
     Course selectedCourse;
     Assessment selectedAssessment;
     Date newDueDate;
@@ -53,12 +52,16 @@ public class AssessmentEdit extends AppCompatActivity implements AdapterView.OnI
         updateViews();
     }
 
+    //Inflation of hidden menu on action bar
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_home, menu);
         return true;
     }
+
+    //Actions related to hidden menu selection
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -102,12 +105,17 @@ public class AssessmentEdit extends AppCompatActivity implements AdapterView.OnI
         selectedAssessment = db.assessmentDao().getAssessment(courseId, assessmentId);
         System.out.println("current assessment title is" + selectedAssessment.getAssessment_title());
         formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+
+        //Query the database and update current layout with appropriate data:
+
         updateViews();
+
+        //When the save button for the assessment is pressed:
 
         assessmentSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("assessment save button pressed");
+                //Gathering field entries and inserting into assessment table via an Assessment object
                 try {
                     Assessment newAssessment = new Assessment();
                     newDueDate = formatter.parse(String.valueOf(dueDateEditText.getText()));
@@ -129,12 +137,9 @@ public class AssessmentEdit extends AppCompatActivity implements AdapterView.OnI
                 }
             }
         });
-
-        //mTextView = (TextView) findViewById(R.id.text);
-
-        // Enables Always-on
-        //setAmbientEnabled();
     }
+
+    //Query the database and update current layout with appropriate data:
 
     private void updateViews() {
         if (selectedAssessment != null) {
@@ -153,6 +158,8 @@ public class AssessmentEdit extends AppCompatActivity implements AdapterView.OnI
             selectedAssessment = new Assessment();
         }
     }
+
+    //Default methods for menu actions
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

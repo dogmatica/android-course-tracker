@@ -10,6 +10,8 @@ import java.util.Date;
 
 import static androidx.room.ForeignKey.CASCADE;
 
+//Defining the course table
+
 @Entity(
         tableName = "course_table",
         foreignKeys = @ForeignKey(
@@ -36,8 +38,9 @@ public class Course {
     private String course_status;
     @ColumnInfo(name = "course_notes")
     private String course_notes;
-    @ColumnInfo(name = "course_alert_date")
-    private Date course_alert_date;
+
+
+    //Course field getters and setters
 
     public int getCourse_id() { return course_id;}
 
@@ -66,11 +69,6 @@ public class Course {
     public String getCourse_notes()  {return course_notes;}
 
     public void setCourse_notes(String course_notes)  {this.course_notes = course_notes;}
-
-    public Date getCourse_alert_date() { return course_alert_date;}
-
-    public void setCourse_alert_date(Date course_alert_date)  {this.course_alert_date = course_alert_date;}
-
 
 
 }

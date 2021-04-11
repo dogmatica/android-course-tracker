@@ -38,9 +38,6 @@
             android:name=".ui.CourseEdit"
             android:label="@string/title_activity_course_edit" />
         <activity
-            android:name=".ui.CourseAlertEntry"
-            android:label="@string/title_activity_course_alert_entry" />
-        <activity
             android:name=".ui.CourseNote"
             android:label="@string/title_activity_course_note" />
         <activity

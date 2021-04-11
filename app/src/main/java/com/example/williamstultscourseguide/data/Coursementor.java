@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
+//Defining the coursementor table
 
 @Entity(
         tableName = "coursementor_table",
@@ -31,6 +32,8 @@ public class Coursementor {
     private String coursementor_phone;
     @ColumnInfo(name = "coursementor_email")
     private String coursementor_email;
+
+    //Coursementor field getters and setters
 
     public int getCoursementor_id() { return coursementor_id;}
 

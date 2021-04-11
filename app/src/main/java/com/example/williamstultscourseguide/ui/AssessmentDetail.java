@@ -17,14 +17,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 
 import com.example.williamstultscourseguide.R;
 import com.example.williamstultscourseguide.data.Assessment;
 import com.example.williamstultscourseguide.data.MainDatabase;
 import com.example.williamstultscourseguide.utility.AlertReceiver;
 import com.example.williamstultscourseguide.utility.Converters;
-import com.example.williamstultscourseguide.utility.NotificationHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
@@ -32,8 +30,8 @@ import java.util.Date;
 
 public class AssessmentDetail extends AppCompatActivity {
 
-    //private TextView mTextView;
-    private NotificationHelper aNotificationHelper;
+    //AssessmentDetail view displays the title, type, due/goal dates and status of an assessment.
+
     public static String LOG_TAG = "AssessmentDetailActivityLog";
     MainDatabase db;
     Intent intent;
@@ -49,7 +47,6 @@ public class AssessmentDetail extends AppCompatActivity {
     TextView assessmentStatusTextView;
     FloatingActionButton assessmentEditButton;
     FloatingActionButton assessmentDeleteButton;
-    Button assessmentAlertButton;
 
     @Override
     protected void onResume() {
@@ -57,12 +54,16 @@ public class AssessmentDetail extends AppCompatActivity {
         updateViews();
     }
 
+    //Inflation of hidden menu on action bar
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_assessment_alert, menu);
         return true;
     }
+
+    //Actions related to hidden menu selection
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -72,7 +73,6 @@ public class AssessmentDetail extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.item1:
-                //int tempRequestCode = AlertReceiver.getNumAlert();
                 int requestCode = (int) System.currentTimeMillis();
                 System.out.println("Request code is " + requestCode);
                 Date alertDate = selectedAssessment.getAssessment_goal();
@@ -83,7 +83,6 @@ public class AssessmentDetail extends AppCompatActivity {
                 PendingIntent sender = PendingIntent.getBroadcast(this, requestCode, intent2, 0);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, Converters.dateToTimestamp(alertDate), sender);
-                //AlertReceiver.setNumAlert(requestCode);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -94,7 +93,6 @@ public class AssessmentDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assessment_detail);
         setTitle("Assessment Details");
-        aNotificationHelper = new NotificationHelper(this);
         assessmentTitleTextView = findViewById(R.id.assessmentTitleTextView);
         assessmentTypeTextView = findViewById(R.id.assessmentTypeTextView);
         assessmentDateDueTextView = findViewById(R.id.assessmentDateDueTextView);
@@ -102,7 +100,6 @@ public class AssessmentDetail extends AppCompatActivity {
         assessmentStatusTextView = findViewById(R.id.assessmentStatusTextView);
         assessmentEditButton = findViewById(R.id.assessmentEditButton);
         assessmentDeleteButton = findViewById(R.id.assessmentDeleteButton);
-        assessmentAlertButton = findViewById(R.id.assessmentAlertButton);
         db = MainDatabase.getInstance(getApplicationContext());
         intent = getIntent();
         termId = intent.getIntExtra("termId", -1);
@@ -111,14 +108,16 @@ public class AssessmentDetail extends AppCompatActivity {
         selectedAssessment = db.assessmentDao().getAssessment(courseId, assessmentId);
         formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 
+        //Query the database and update current layout with appropriate data:
+
         updateViews();
+
+        //When the edit button for the assessment is pressed:
 
         assessmentEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("edit assessment button pressed");
-                Assessment tempAssessment = db.assessmentDao().getAssessment(courseId, assessmentId);
-                System.out.println("current assessment title is: " + tempAssessment.getAssessment_title());
+                //Loading the add / edit assessment view, passing variables courseId and assessmentId:
                 Intent intent = new Intent(getApplicationContext(), AssessmentEdit.class);
                 intent.putExtra("courseId", courseId);
                 intent.putExtra("assessmentId", assessmentId);
@@ -126,11 +125,16 @@ public class AssessmentDetail extends AppCompatActivity {
             }
         });
 
+        //When the delete button for the assessment is pressed
+
         assessmentDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //A confirmation dialog is shown asking the user
+                // if they are sure they want to delete:
                 AlertDialog dialog = new AlertDialog.Builder(AssessmentDetail.this).setTitle("Confirm").setMessage("Delete Assessment?").setPositiveButton("Ok", null).setNegativeButton("Cancel", null).show();
                 Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                //When the user clicks "Ok" to delete:
                 positiveButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -143,15 +147,12 @@ public class AssessmentDetail extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
+                //If the user clicks cancel, the previous screen is restored
             }
-
-
-            //mTextView = (TextView) findViewById(R.id.notesTitle);
-
-            // Enables Always-on
-            //setAmbientEnabled();
         });
     }
+
+        //Query the database and update current layout with appropriate data:
 
         private void updateViews() {
             if (selectedAssessment != null) {
@@ -170,9 +171,4 @@ public class AssessmentDetail extends AppCompatActivity {
                 selectedAssessment = new Assessment();
             }
         }
-
-        public void sendOnChannel1 (String title, String message){
-            NotificationCompat.Builder nb = aNotificationHelper.getChannel1Notification(title, message);
-            aNotificationHelper.getManager().notify(1, nb.build());
-        }
-    }
+}

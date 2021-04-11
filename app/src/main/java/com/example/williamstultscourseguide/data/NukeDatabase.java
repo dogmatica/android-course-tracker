@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class NukeDatabase extends AppCompatActivity {
 
+    //NukeDatabase is for deleting all data in the existing database.
+    //Repopulating the database can be done with PopulateDatabase.
+
     public static String LOG_TAG = "NukeData";
     MainDatabase db;
 

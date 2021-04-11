@@ -16,11 +16,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.williamstultscourseguide.R;
 import com.example.williamstultscourseguide.data.Assessment;
 import com.example.williamstultscourseguide.data.Course;
@@ -30,7 +28,6 @@ import com.example.williamstultscourseguide.data.Term;
 import com.example.williamstultscourseguide.utility.AlertReceiver;
 import com.example.williamstultscourseguide.utility.Converters;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,16 +35,14 @@ import java.util.List;
 
 public class CourseDetail extends AppCompatActivity {
 
-    //private TextView mTextView;
+    /*
+    CourseDetail view displays name, start and end dates, status,
+    as well as mentor name, phone and email, and all assessments for the course
+    */
+
     public static String LOG_TAG = "CourseDetailActivityLog";
     MainDatabase db;
     TextView courseTitleTextView;
-    TextView courseStartDateTextView;
-    TextView courseEndDateTextView;
-    TextView statusTextView;
-    TextView mentorTextView;
-    TextView phoneTextView;
-    TextView emailTextView;
     TextView courseStartTextView;
     TextView courseEndTextView;
     TextView courseStatusTextView;
@@ -56,13 +51,8 @@ public class CourseDetail extends AppCompatActivity {
     TextView mentorEmailTextView;
     FloatingActionButton editCourseButton;
     ListView courseAssessmentListView;
-    TextView courseAssessmentTextView;
     FloatingActionButton addCourseAssessmentButton;
-    //TextView noteTextView;
-    //TextView courseNoteTextView;
-    //FloatingActionButton editCourseNoteButton;
     FloatingActionButton deleteCourseButton;
-    Button button;
     Button button2;
     Intent intent;
     int courseId;
@@ -79,6 +69,8 @@ public class CourseDetail extends AppCompatActivity {
         updateViews();
     }
 
+    //Inflation of hidden menu on action bar
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -86,18 +78,21 @@ public class CourseDetail extends AppCompatActivity {
         return true;
     }
 
+    //Actions related to hidden menu selection
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Calendar c = Calendar.getInstance();
+        //The hidden menu in the CourseDetail view provides additional options:
         switch (item.getItemId()) {
+            //When "Home" is selected:
             case R.id.home:
                 Intent intent = new Intent(getApplicationContext(), Home.class);
                 startActivity(intent);
                 return true;
+            //When Alert > Course Start is selected:
             case R.id.subitem1:
-                //int tempRequestCode = AlertReceiver.getNumAlert();
+                //A unique value for the request code is generated based on the current time in milliseconds
                 int requestCode = (int) System.currentTimeMillis();
-                System.out.println("Request code is " + requestCode);
                 Date alertDate = selectedCourse.getCourse_start();
                 String tempAlertDate = formatter.format(alertDate);
                 Intent intent2 = new Intent(this, AlertReceiver.class);
@@ -106,11 +101,10 @@ public class CourseDetail extends AppCompatActivity {
                 PendingIntent sender = PendingIntent.getBroadcast(this, requestCode, intent2, 0);
                 AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, Converters.dateToTimestamp(alertDate), sender);
-                //AlertReceiver.setNumAlert(requestCode);
+            //When Alert > Course End is selected:
             case R.id.subitem2:
-                //int tempRequestCode2 = AlertReceiver.getNumAlert();
+                //A unique value for the request code is generated based on the current time in milliseconds
                 int requestCode2 = (int) System.currentTimeMillis();
-                System.out.println("Request code is " + requestCode2);
                 Date alertDate2 = selectedCourse.getCourse_end();
                 String tempAlertDate2 = formatter.format(alertDate2);
                 Intent intent3 = new Intent(this, AlertReceiver.class);
@@ -119,7 +113,6 @@ public class CourseDetail extends AppCompatActivity {
                 PendingIntent sender2 = PendingIntent.getBroadcast(this, requestCode2, intent3, 0);
                 AlarmManager alarmManager2 = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
                 alarmManager2.setExact(AlarmManager.RTC_WAKEUP, Converters.dateToTimestamp(alertDate2), sender2);
-                //AlertReceiver.setNumAlert(requestCode2);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -138,12 +131,10 @@ public class CourseDetail extends AppCompatActivity {
         mentorPhoneTextView = findViewById(R.id.mentorPhoneTextView);
         mentorEmailTextView = findViewById(R.id.mentorEmailTextView);
         courseAssessmentListView = findViewById(R.id.courseAssessmentListView);
-        button = findViewById(R.id.button);
         button2 = findViewById(R.id.button2);
         editCourseButton = findViewById(R.id.editCourseButton);
         addCourseAssessmentButton = findViewById(R.id.addCourseAssessmentButton);
         deleteCourseButton = findViewById(R.id.deleteCourseButton);
-        //courseNoteTextView = findViewById(R.id.courseNoteTextView);
         db = MainDatabase.getInstance(getApplicationContext());
         intent = getIntent();
         courseId = intent.getIntExtra("courseId", -1);
@@ -152,13 +143,17 @@ public class CourseDetail extends AppCompatActivity {
         selectedTerm = db.termDao().getTerm(termId);
         formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 
+        //Query the database and update current layout with appropriate data:
+
         updateViews();
         updateList();
+
+        //When an assessment that is a member of the displayed list is pressed:
 
         courseAssessmentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("Position clicked: " + position);
+                //Loading the assessment detail view, passing variable termId, courseId, and assessmentId
                 Intent intent = new Intent(getApplicationContext(), AssessmentDetail.class);
                 int assessmentId = db.assessmentDao().getCourseAssessmentList(courseId).get(position).getAssessment_id();
                 intent.putExtra("termId", termId);
@@ -168,12 +163,12 @@ public class CourseDetail extends AppCompatActivity {
             }
         });
 
+        //When the edit button for the course is pressed:
+
         editCourseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("edit course button pressed");
-                Course tempCourse = db.courseDao().getCourse(termId, courseId);
-                System.out.println("current course name: " + tempCourse.getCourse_name());
+                //Loading the add / edit course view, passing variables termId and courseId
                 Intent intent = new Intent(getApplicationContext(), CourseEdit.class);
                 intent.putExtra("termId", termId);
                 intent.putExtra("courseId", courseId);
@@ -181,10 +176,14 @@ public class CourseDetail extends AppCompatActivity {
             }
         });
 
+        //When the add button under the assessments list is pressed:
+
         addCourseAssessmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("add assessment button pressed");
+                //A new blank assessment is created, populated with default values,
+                //and loaded into the add / edit assessment view
+                //variables courseId and assessmentId are passed
                 Intent intent = new Intent(getApplicationContext(), AssessmentEdit.class);
                 Calendar calendar = Calendar.getInstance();
                 int dbCount = db.assessmentDao().getAssessmentList().size() + 1;
@@ -202,15 +201,19 @@ public class CourseDetail extends AppCompatActivity {
                 intent.putExtra("courseId", courseId);
                 intent.putExtra("assessmentId", assessmentId);
                 startActivity(intent);
-
             }
         });
+
+        //When the delete button for the course is pressed
 
         deleteCourseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //A confirmation dialog is shown asking the user
+                // if they are sure they want to delete:
                 AlertDialog dialog = new AlertDialog.Builder(CourseDetail.this).setTitle("Confirm").setMessage("Delete Course?").setPositiveButton("Ok", null).setNegativeButton("Cancel", null).show();
                 Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                //When the user clicks "Ok" to delete:
                 positiveButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -222,53 +225,37 @@ public class CourseDetail extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
+                //If the user clicks cancel, the previous screen is restored
             }
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CourseAlertEntry.class);
-                startActivity(intent);
-            }
-        });
+        //When the view note button for the course is pressed
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Loading the course note view, passing variables termId and courseId
                 Intent intent = new Intent(getApplicationContext(), CourseNote.class);
                 intent.putExtra("termId", termId);
                 intent.putExtra("courseId", courseId);
                 startActivity(intent);
             }
         });
-
-
-
-
-        //mTextView = (TextView) findViewById(R.id.text);
-
-        // Enables Always-on
-        //setAmbientEnabled();
     }
+
+    //Query the database and update current layout with appropriate data:
 
     private void updateViews() {
         if (selectedCourse != null) {
             Log.d(CourseDetail.LOG_TAG, "selected course is not null");
             Date startDate = selectedCourse.getCourse_start();
-            System.out.println("Current course start date is " + startDate.toString());
             Date endDate = selectedCourse.getCourse_end();
-
-            System.out.println("Millisecond date: " + startDate.toString());
             String tempStart = formatter.format(startDate);
             String tempEnd = formatter.format(endDate);
-            System.out.println("Formatted date: " + tempStart);
             courseStartTextView.setText(tempStart);
             courseEndTextView.setText(tempEnd);
             courseTitleTextView.setText(selectedCourse.getCourse_name());
             courseStatusTextView.setText(selectedCourse.getCourse_status());
-            //courseNoteTextView.setText(selectedCourse.getCourse_notes());
-
             selectedMentor = db.coursementorDao().getCoursementor(selectedCourse.getCourse_id());
             courseMentorTextView.setText(selectedMentor.getCoursementor_name());
             mentorPhoneTextView.setText(selectedMentor.getCoursementor_phone());
@@ -279,15 +266,14 @@ public class CourseDetail extends AppCompatActivity {
         }
     }
 
+    //Query the database and update current layout with appropriate data:
+
     private void updateList() {
         List<Assessment> allCourseAssessments = db.assessmentDao().getCourseAssessmentList(selectedCourse.getCourse_id());
-        System.out.println("Number of rows in course table matching " + courseId + ": " + allCourseAssessments.size());
-
         String[] items = new String[allCourseAssessments.size()];
         if(!allCourseAssessments.isEmpty()) {
             for (int i = 0; i < allCourseAssessments.size(); i++) {
                 items[i] = allCourseAssessments.get(i).getAssessment_title();
-                System.out.println("Assessment in position = " + i + " with name = " + items[i]);
             }
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);

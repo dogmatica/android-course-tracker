@@ -10,6 +10,8 @@ import java.util.Date;
 
 import static androidx.room.ForeignKey.CASCADE;
 
+//Defining the assessment table
+
 @Entity(
         tableName = "assessment_table",
         foreignKeys = @ForeignKey(
@@ -36,6 +38,8 @@ public class Assessment {
     private Date assessment_goal;
     @ColumnInfo(name = "assessment_status")
     private String assessment_status;
+
+    //Assessment field getters and setters
 
     public int getAssessment_id() { return assessment_id;}
 

@@ -22,7 +22,7 @@ public class Term {
     @ColumnInfo(name = "term_end")
     private Date term_end;
 
-    //Term table getters and setters
+    //Term field getters and setters
 
     public int getTerm_id() {
         return term_id;

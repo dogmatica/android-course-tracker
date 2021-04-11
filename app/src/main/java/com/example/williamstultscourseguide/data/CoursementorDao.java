@@ -16,9 +16,6 @@ public interface CoursementorDao {
     @Query("SELECT * FROM coursementor_table WHERE course_id_fk = :courseId")
     Coursementor getCoursementor(int courseId);
 
-    @Query("SELECT * FROM coursementor_table")
-    List<Coursementor> getAllCoursementors();
-
     @Insert
     void insertCoursementor(Coursementor coursementor);
 
@@ -27,9 +24,6 @@ public interface CoursementorDao {
 
     @Update
     void updateCoursementor(Coursementor coursementor);
-
-    @Update
-    void deleteCoursementor(Coursementor coursementor);
 
     @Query("DELETE FROM coursementor_table")
     public void nukeCoursementorTable();

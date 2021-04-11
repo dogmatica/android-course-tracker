@@ -8,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Calendar;
 import java.util.List;
 
+//PopulateDatabase is for populating an empty database.
+//Deleting all existing database data can be performed with NukeDatabase.
+
 public class PopulateDatabase extends AppCompatActivity {
 
     public static String LOG_TAG = "PopData";

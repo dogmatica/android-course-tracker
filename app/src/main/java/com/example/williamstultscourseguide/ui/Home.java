@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.example.williamstultscourseguide.R;
 import com.example.williamstultscourseguide.data.Assessment;
@@ -73,8 +75,8 @@ public class Home extends AppCompatActivity {
         passedCountTextView = findViewById(R.id.passedCountTextView);
         failedCountTextView = findViewById(R.id.failedCountTextView);
         goButton = findViewById(R.id.goButton);
-        nukeButton = findViewById(R.id.nukeButton);
-        populateButton = findViewById(R.id.populateButton);
+        //nukeButton = findViewById(R.id.nukeButton);
+        //populateButton = findViewById(R.id.populateButton);
         todaysDateString = dtf.format(todaysDate);
         todaysDateTextView.setText(todaysDateString);
         button3 = findViewById(R.id.button3);
@@ -109,14 +111,39 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        populateButton.setOnClickListener(v -> {
+        ConstraintLayout myLayout = findViewById(R.id.homePageConstraintLayout);
+        ConstraintSet set = new ConstraintSet();
+
+        Button populateDBButton = new Button(getApplicationContext());
+        populateDBButton.setText("Populate Empty Database");
+        populateDBButton.setId(R.id.populateDBButton);
+        set.constrainHeight(populateDBButton.getId(), ConstraintSet.WRAP_CONTENT);
+        set.constrainWidth(populateDBButton.getId(), ConstraintSet.WRAP_CONTENT);
+        set.connect(populateDBButton.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 8);
+        set.connect(populateDBButton.getId(), ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT, 8);
+        myLayout.addView(populateDBButton);
+        setContentView(myLayout);
+        set.applyTo(myLayout);
+
+        Button nukeDBButton = new Button(getApplicationContext());
+        nukeDBButton.setText("Delete Database");
+        nukeDBButton.setId(R.id.nukeDBButton);
+        set.constrainHeight(nukeDBButton.getId(), ConstraintSet.WRAP_CONTENT);
+        set.constrainWidth(nukeDBButton.getId(), ConstraintSet.WRAP_CONTENT);
+        set.connect(nukeDBButton.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 8);
+        set.connect(nukeDBButton.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT, 8);
+        myLayout.addView(nukeDBButton);
+        setContentView(myLayout);
+        set.applyTo(myLayout);
+
+        populateDBButton.setOnClickListener(v -> {
             Log.d(LOG_TAG, "populate DB button pressed");
             PopulateDatabase populateDatabase = new PopulateDatabase();
             populateDatabase.populate(getApplicationContext());
             updateViews();
         });
 
-        nukeButton.setOnClickListener(v -> {
+        nukeDBButton.setOnClickListener(v -> {
             Log.d(LOG_TAG, "nuke DB button pressed");
             NukeDatabase nukeDatabase = new NukeDatabase();
             nukeDatabase.nuke(getApplicationContext());

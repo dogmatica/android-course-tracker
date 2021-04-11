@@ -37,9 +37,6 @@ public interface AssessmentDao {
     @Update
     void updateAssessment(Assessment assessment);
 
-    //@Update
-    //void deleteAssessment(Assessment assessment);
-
     @Query("DELETE FROM assessment_table")
     public void nukeAssessmentTable();
 

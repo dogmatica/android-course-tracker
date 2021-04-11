@@ -9,31 +9,28 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.williamstultscourseguide.R;
 import com.example.williamstultscourseguide.data.Assessment;
 import com.example.williamstultscourseguide.data.MainDatabase;
-
 import java.util.List;
 
 public class AssessmentsList extends AppCompatActivity {
 
-    //private TextView mTextView;
+    //AssessmentsList view displays a selectable ListView of all assessments currently in the assessment table
+
     public static String LOG_TAG = "AssessmentsListActivityLog";
     MainDatabase db;
     ListView allAssessmentsList;
-
-
 
     @Override
     protected void onResume() {
         super.onResume();
         updateList();
-
     }
+
+    //Inflation of hidden menu on action bar
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -41,6 +38,8 @@ public class AssessmentsList extends AppCompatActivity {
         inflater.inflate(R.menu.menu_home, menu);
         return true;
     }
+
+    //Actions related to hidden menu selection
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -61,12 +60,17 @@ public class AssessmentsList extends AppCompatActivity {
         setTitle("All Assessments");
         allAssessmentsList = findViewById(R.id.allAssessmentsList);
         db = MainDatabase.getInstance(getApplicationContext());
+
+        //Query the database and update current layout with appropriate data:
+
         updateList();
+
+        //When an assessment that is a member of the displayed list is pressed:
 
         allAssessmentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("Position clicked: " + position);
+                //Loading the assessment detail view, passing variables courseId and assessmentId:
                 Intent intent = new Intent(getApplicationContext(), AssessmentDetail.class);
                 int assessmentId = db.assessmentDao().getAllAssessments().get(position).getAssessment_id();
                 int courseId = db.assessmentDao().getAllAssessments().get(position).getCourse_id_fk();
@@ -76,21 +80,17 @@ public class AssessmentsList extends AppCompatActivity {
             }
         });
 
-        //mTextView = (TextView) findViewById(R.id.notesTitle);
+     }
 
-        // Enables Always-on
-        //setAmbientEnabled();
-    }
+    //Query the database and update current layout with appropriate data:
 
     private void updateList() {
         List<Assessment> allAssessments = db.assessmentDao().getAllAssessments();
-        System.out.println("Number of rows in assessment table: " + allAssessments.size());
-
+        //String array is created from the database query results
         String[] items = new String[allAssessments.size()];
         if(!allAssessments.isEmpty()) {
             for (int i = 0; i < allAssessments.size(); i++) {
                 items[i] = allAssessments.get(i).getAssessment_title();
-                System.out.println("Assessment in position = " + i + " with name = " + items[i]);
             }
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
