@@ -1,7 +1,6 @@
 package com.example.williamstultscourseguide.data;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -35,10 +34,13 @@ public interface CourseDao {
     @Update
     void updateCourse(Course course);
 
-    @Delete
-    void deleteCourse(Course course);
+    //@Delete
+    //void deleteCourse(Course course);
 
     @Query("DELETE FROM course_table")
     public void nukeCourseTable();
+
+    @Query("DELETE FROM course_table WHERE course_id = :courseId")
+    void deleteCourse(int courseId);
 
 }

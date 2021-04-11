@@ -1,4 +1,4 @@
-package com.example.williamstultscourseguide.data;
+package com.example.williamstultscourseguide.utility;
 
 import androidx.room.TypeConverter;
 

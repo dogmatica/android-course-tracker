@@ -69,7 +69,8 @@ public class AssessmentsList extends AppCompatActivity {
                 System.out.println("Position clicked: " + position);
                 Intent intent = new Intent(getApplicationContext(), AssessmentDetail.class);
                 int assessmentId = db.assessmentDao().getAllAssessments().get(position).getAssessment_id();
-                //intent.putExtra("courseId", courseId);
+                int courseId = db.assessmentDao().getAllAssessments().get(position).getCourse_id_fk();
+                intent.putExtra("courseId", courseId);
                 intent.putExtra("assessmentId", assessmentId);
                 startActivity(intent);
             }

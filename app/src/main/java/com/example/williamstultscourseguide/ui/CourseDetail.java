@@ -1,5 +1,8 @@
 package com.example.williamstultscourseguide.ui;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +15,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.williamstultscourseguide.R;
@@ -21,6 +26,9 @@ import com.example.williamstultscourseguide.data.Assessment;
 import com.example.williamstultscourseguide.data.Course;
 import com.example.williamstultscourseguide.data.Coursementor;
 import com.example.williamstultscourseguide.data.MainDatabase;
+import com.example.williamstultscourseguide.data.Term;
+import com.example.williamstultscourseguide.utility.AlertReceiver;
+import com.example.williamstultscourseguide.utility.Converters;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
@@ -59,6 +67,7 @@ public class CourseDetail extends AppCompatActivity {
     Intent intent;
     int courseId;
     int termId;
+    Term selectedTerm;
     Course selectedCourse;
     Coursementor selectedMentor;
     SimpleDateFormat formatter;
@@ -73,17 +82,44 @@ public class CourseDetail extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_home, menu);
+        inflater.inflate(R.menu.menu_course_alert, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Calendar c = Calendar.getInstance();
         switch (item.getItemId()) {
             case R.id.home:
                 Intent intent = new Intent(getApplicationContext(), Home.class);
                 startActivity(intent);
                 return true;
+            case R.id.subitem1:
+                //int tempRequestCode = AlertReceiver.getNumAlert();
+                int requestCode = (int) System.currentTimeMillis();
+                System.out.println("Request code is " + requestCode);
+                Date alertDate = selectedCourse.getCourse_start();
+                String tempAlertDate = formatter.format(alertDate);
+                Intent intent2 = new Intent(this, AlertReceiver.class);
+                intent2.putExtra("title", selectedCourse.getCourse_name());
+                intent2.putExtra("message", "Start date for " + selectedCourse.getCourse_name() + " has arrived: " + tempAlertDate);
+                PendingIntent sender = PendingIntent.getBroadcast(this, requestCode, intent2, 0);
+                AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, Converters.dateToTimestamp(alertDate), sender);
+                //AlertReceiver.setNumAlert(requestCode);
+            case R.id.subitem2:
+                //int tempRequestCode2 = AlertReceiver.getNumAlert();
+                int requestCode2 = (int) System.currentTimeMillis();
+                System.out.println("Request code is " + requestCode2);
+                Date alertDate2 = selectedCourse.getCourse_end();
+                String tempAlertDate2 = formatter.format(alertDate2);
+                Intent intent3 = new Intent(this, AlertReceiver.class);
+                intent3.putExtra("title", selectedCourse.getCourse_name());
+                intent3.putExtra("message", "End date for " + selectedCourse.getCourse_name() + " has arrived: " + tempAlertDate2);
+                PendingIntent sender2 = PendingIntent.getBroadcast(this, requestCode2, intent3, 0);
+                AlarmManager alarmManager2 = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                alarmManager2.setExact(AlarmManager.RTC_WAKEUP, Converters.dateToTimestamp(alertDate2), sender2);
+                //AlertReceiver.setNumAlert(requestCode2);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -106,12 +142,14 @@ public class CourseDetail extends AppCompatActivity {
         button2 = findViewById(R.id.button2);
         editCourseButton = findViewById(R.id.editCourseButton);
         addCourseAssessmentButton = findViewById(R.id.addCourseAssessmentButton);
+        deleteCourseButton = findViewById(R.id.deleteCourseButton);
         //courseNoteTextView = findViewById(R.id.courseNoteTextView);
         db = MainDatabase.getInstance(getApplicationContext());
         intent = getIntent();
         courseId = intent.getIntExtra("courseId", -1);
         termId = intent.getIntExtra("termId", -1);
         selectedCourse = db.courseDao().getCourse(termId, courseId);
+        selectedTerm = db.termDao().getTerm(termId);
         formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 
         updateViews();
@@ -123,6 +161,7 @@ public class CourseDetail extends AppCompatActivity {
                 System.out.println("Position clicked: " + position);
                 Intent intent = new Intent(getApplicationContext(), AssessmentDetail.class);
                 int assessmentId = db.assessmentDao().getCourseAssessmentList(courseId).get(position).getAssessment_id();
+                intent.putExtra("termId", termId);
                 intent.putExtra("courseId", courseId);
                 intent.putExtra("assessmentId", assessmentId);
                 startActivity(intent);
@@ -164,6 +203,25 @@ public class CourseDetail extends AppCompatActivity {
                 intent.putExtra("assessmentId", assessmentId);
                 startActivity(intent);
 
+            }
+        });
+
+        deleteCourseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog dialog = new AlertDialog.Builder(CourseDetail.this).setTitle("Confirm").setMessage("Delete Course?").setPositiveButton("Ok", null).setNegativeButton("Cancel", null).show();
+                Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                positiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String courseName = selectedCourse.getCourse_name();
+                        db.courseDao().deleteCourse(courseId);
+                        Toast.makeText(getApplicationContext(), "Course " + courseName + " was deleted.", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getApplicationContext(), TermDetail.class);
+                        intent.putExtra("termId", termId);
+                        startActivity(intent);
+                    }
+                });
             }
         });
 

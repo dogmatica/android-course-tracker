@@ -18,8 +18,8 @@ import static androidx.room.ForeignKey.CASCADE;
                         childColumns = "term_id_fk",
                         onDelete = CASCADE
                 ),
-        indices = {@Index(value = "course_name", unique = true)}
-)
+        indices = {@Index(value = "course_name", unique = true), @Index(value = "term_id_fk")}
+        )
 
 public class Course {
     @PrimaryKey(autoGenerate = true)

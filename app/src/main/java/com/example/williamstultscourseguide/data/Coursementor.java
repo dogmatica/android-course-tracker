@@ -3,18 +3,23 @@ package com.example.williamstultscourseguide.data;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
+import static androidx.room.ForeignKey.CASCADE;
 
 
 @Entity(
         tableName = "coursementor_table",
         foreignKeys = @ForeignKey(
-            entity = Course.class,
-            parentColumns = "course_id",
-            childColumns = "course_id_fk"
+                entity = Course.class,
+                parentColumns = "course_id",
+                childColumns = "course_id_fk",
+                onDelete = CASCADE
+            ),
+        indices = {@Index(value = "course_id_fk")}
 )
 
-)
 public class Coursementor {
     @PrimaryKey(autoGenerate = true)
     private int coursementor_id;

@@ -9,10 +9,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.williamstultscourseguide.R;
@@ -34,6 +37,7 @@ public class TermDetail extends AppCompatActivity {
     MainDatabase db;
     FloatingActionButton addTermCourseButton;
     FloatingActionButton editTermButton;
+    FloatingActionButton deleteTermButton;
     ListView courseList;
     TextView termTitleTextView;
     TextView startDateTextView;
@@ -78,6 +82,7 @@ public class TermDetail extends AppCompatActivity {
         setTitle("Term Details");
         addTermCourseButton = findViewById(R.id.addTermCourseButton);
         editTermButton = findViewById(R.id.editTermButton);
+        deleteTermButton = findViewById(R.id.deleteTermButton);
         termTitleTextView = findViewById(R.id.termTitleTextView);
         startDateTextView = findViewById(R.id.startDateTextView);
         endDateTextView = findViewById(R.id.endDateTextView);
@@ -149,6 +154,29 @@ public class TermDetail extends AppCompatActivity {
                 System.out.println("add course button pressed");
                 startActivity(intent);
 
+            }
+        });
+
+        deleteTermButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog dialog = new AlertDialog.Builder(TermDetail.this).setTitle("Confirm").setMessage("Delete Term?").setPositiveButton("Ok", null).setNegativeButton("Cancel", null).show();
+                Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                positiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int numCourses = db.courseDao().getCourseList(termId).size();
+                        if (numCourses == 0) {
+                            String termTitle = selectedTerm.getTerm_name();
+                            db.termDao().deleteTerm(termId);
+                            Toast.makeText(getApplicationContext(), "Term " + termTitle + " was deleted.", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getApplicationContext(), TermsList.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Cannot delete a term that has courses.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
             }
         });
 

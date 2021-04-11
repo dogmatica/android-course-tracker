@@ -8,14 +8,17 @@ import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 @Entity(
         tableName = "assessment_table",
         foreignKeys = @ForeignKey(
                 entity = Course.class,
                 parentColumns = "course_id",
-                childColumns = "course_id_fk"
+                childColumns = "course_id_fk",
+                onDelete = CASCADE
                 ),
-        indices = {@Index(value = "assessment_title", unique = true)}
+        indices = {@Index(value = "assessment_title", unique = true), @Index(value = "course_id_fk")}
 )
 
 public class Assessment {

@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WilliamStultsCourseGuide">
 
-
+        <receiver android:name=".utility.AlertReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
