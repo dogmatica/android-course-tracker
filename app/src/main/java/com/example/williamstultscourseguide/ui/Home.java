@@ -52,6 +52,8 @@ public class Home extends AppCompatActivity {
     TextView assessmentsPendingCountTextView;
     TextView passedCountTextView;
     TextView failedCountTextView;
+    TextView droppedCountTextView;
+    TextView planCountTextView;
     Button goButton;
     Button button3;
     Button button4;
@@ -76,6 +78,8 @@ public class Home extends AppCompatActivity {
         courseCompletedTextView = findViewById(R.id.courseCompletedTextView);
         passedCountTextView = findViewById(R.id.passedCountTextView);
         failedCountTextView = findViewById(R.id.failedCountTextView);
+        droppedCountTextView = findViewById(R.id.droppedCountTextView);
+        planCountTextView = findViewById(R.id.planCountTextView);
         goButton = findViewById(R.id.goButton);
         todaysDateString = dtf.format(todaysDate);
         todaysDateTextView.setText(todaysDateString);
@@ -172,6 +176,8 @@ public class Home extends AppCompatActivity {
         //A collection of data is queried from the database to populate progress tracking elements
         int coursesPending = 0;
         int coursesCompleted = 0;
+        int coursesDropped = 0;
+        int coursesPlanned = 0;
         int assessmentsPending = 0;
         int assessmentsPassed = 0;
         int assessmentsFailed = 0;
@@ -180,9 +186,10 @@ public class Home extends AppCompatActivity {
             List<Assessment> assessmentList = db.assessmentDao().getAllAssessments();
             try {
                 for (int i = 0; i < courseList.size(); i++) {
-                    if (courseList.get(i).getCourse_status().contains("Pending")) coursesPending++;
-                    if (courseList.get(i).getCourse_status().contains("In-Progress")) coursesPending++;
+                    if (courseList.get(i).getCourse_status().contains("In Progress")) coursesPending++;
+                    if (courseList.get(i).getCourse_status().contains("Dropped")) coursesDropped++;
                     if (courseList.get(i).getCourse_status().contains("Completed")) coursesCompleted++;
+                    if (courseList.get(i).getCourse_status().contains("Plan to Take")) coursesPlanned++;
                     }
 
             } catch (Exception e) {
@@ -198,6 +205,8 @@ public class Home extends AppCompatActivity {
         }
         coursesPendingCountTextView.setText(String.valueOf(coursesPending));
         completedCountTextView.setText(String.valueOf(coursesCompleted));
+        droppedCountTextView.setText(String.valueOf(coursesDropped));
+        planCountTextView.setText(String.valueOf(coursesPlanned));
         assessmentsPendingCountTextView.setText(String.valueOf(assessmentsPending));
         passedCountTextView.setText(String.valueOf(assessmentsPassed));
         failedCountTextView.setText(String.valueOf(assessmentsFailed));

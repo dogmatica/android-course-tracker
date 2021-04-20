@@ -98,7 +98,7 @@ public class PopulateDatabase extends AppCompatActivity {
         tempCourse2.setCourse_start(start.getTime());
         tempCourse2.setCourse_end(end.getTime());
         tempCourse2.setCourse_notes("Auto-Populated Notes");
-        tempCourse2.setCourse_status("Completed");
+        tempCourse2.setCourse_status("In Progress");
         tempCourse2.setTerm_id_fk(termList.get(0).getTerm_id());
 
         start = Calendar.getInstance();
@@ -109,7 +109,7 @@ public class PopulateDatabase extends AppCompatActivity {
         tempCourse3.setCourse_start(start.getTime());
         tempCourse3.setCourse_end(end.getTime());
         tempCourse3.setCourse_notes("Auto-Populated Notes");
-        tempCourse3.setCourse_status("In-Progress");
+        tempCourse3.setCourse_status("Plan to Take");
         tempCourse3.setTerm_id_fk(termList.get(0).getTerm_id());
 
         db.courseDao().insertCourse(tempCourse1);
